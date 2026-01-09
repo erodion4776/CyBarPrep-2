@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 declare global {
   interface Window {
@@ -8,8 +8,14 @@ declare global {
 }
 
 const GoogleTranslate: React.FC = () => {
+  const isLoaded = useRef(false);
+
   useEffect(() => {
-    // 1. Define the global callback function that Google looks for
+    // Prevent double loading
+    if (isLoaded.current) return;
+    isLoaded.current = true;
+
+    // 1. Define the callback function
     window.googleTranslateElementInit = () => {
       if (window.google && window.google.translate) {
         new window.google.translate.TranslateElement(
@@ -23,30 +29,36 @@ const GoogleTranslate: React.FC = () => {
       }
     };
 
-    // 2. Load the script only if it doesn't exist yet
-    const scriptId = 'google-translate-script';
-    const existingScript = document.getElementById(scriptId);
-    
-    if (!existingScript) {
+    // 2. Load the script with a slight delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      const scriptId = 'google-translate-script';
+      // Remove existing script if any to force reload
+      const existingScript = document.getElementById(scriptId);
+      if (existingScript) {
+        existingScript.remove();
+      }
+
       const script = document.createElement('script');
       script.id = scriptId;
       script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.body.appendChild(script);
-    } else {
-      // If script is already loaded, manually trigger init if google object exists
-      if (window.google && window.google.translate) {
-        window.googleTranslateElementInit();
-      }
-    }
+    }, 1000); // 1 second delay
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
-    <div 
-      id="google_translate_element" 
-      className="translate-widget-container"
-      style={{ minHeight: '40px', display: 'block' }} // Force it to have space
-    ></div>
+    <div className="w-full">
+      <div 
+        id="google_translate_element" 
+        style={{ minHeight: '40px' }}
+        className="translate-widget-container"
+      >
+        {/* Placeholder text that disappears when Google loads */}
+        <span className="text-xs text-slate-400 p-2 font-medium uppercase tracking-widest">Loading...</span>
+      </div>
+    </div>
   );
 };
 
