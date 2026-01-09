@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Gavel } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import GoogleTranslate from './GoogleTranslate';
+import LanguageSelector from './LanguageSelector';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,8 +58,8 @@ const Navbar: React.FC = () => {
               </Link>
             ))}
             
-            {/* Language Translator Desktop */}
-            <GoogleTranslate />
+            {/* Language Selector Desktop */}
+            <LanguageSelector />
 
             <motion.a
               whileHover={{ scale: 1.05, backgroundColor: "#a3864d" }}
@@ -108,10 +108,10 @@ const Navbar: React.FC = () => {
                 </Link>
               ))}
               
-              {/* Language Translator Mobile */}
+              {/* Language Selector Mobile */}
               <div className="py-2 border-t border-slate-100">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Language</p>
-                <GoogleTranslate />
+                <LanguageSelector />
               </div>
 
               <a
