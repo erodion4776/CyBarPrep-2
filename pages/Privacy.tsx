@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -18,7 +17,7 @@ const Privacy: React.FC = () => {
           <section>
             <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">Introduction</h2>
             <p>
-              At CyBarPrep, we value the privacy and confidentiality of the legal professionals we serve. This Privacy Policy outlines how we collect, use, and protect your information when you engage with our strategic consulting services.
+              At CyAzor Bar Prep, we value the privacy and confidentiality of the legal professionals we serve. This Privacy Policy outlines how we collect, use, and protect your information when you engage with our strategic consulting services.
             </p>
           </section>
 
@@ -62,7 +61,7 @@ const Privacy: React.FC = () => {
               For any inquiries regarding your privacy or data usage, please contact us at:
             </p>
             <p className="mt-4 font-bold text-slate-900 tracking-wide uppercase text-xs">
-              strategic@cybarprep.com
+              strategic@cyazorbarprep.com
             </p>
           </section>
         </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Check, X, Info, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -158,7 +157,7 @@ const Consultations: React.FC = () => {
         >
           <ServiceCard
             title="Full Strategy + Feedback"
-            price="$400"
+            price="$100"
             highlight={true}
             includes={[
               "Initial strategy session (45-60 min)",
@@ -174,7 +173,7 @@ const Consultations: React.FC = () => {
 
           <ServiceCard
             title="Strategy-Only Session"
-            price="$200"
+            price="$100"
             includes={[
               "Strategic roadmap session (60 min)",
               "Study planning & resource selection",
@@ -188,7 +187,7 @@ const Consultations: React.FC = () => {
 
           <ServiceCard
             title="Technical Feedback Only"
-            price="$200/unit"
+            price="$100"
             includes={[
               "Rigorous review of MEE or MPT",
               "Written feedback on technical execution",
@@ -203,7 +202,7 @@ const Consultations: React.FC = () => {
 
           <ServiceCard
             title="Eligibility Guidance"
-            price="$200"
+            price="$100"
             includes={[
               "Pathway evaluation (LLM vs Non-LLM)",
               "Strategic state selection insights",

@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Gavel } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import GoogleTranslate from './GoogleTranslate';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,14 +30,14 @@ const Navbar: React.FC = () => {
               >
                 <Gavel strokeWidth={1.5} className="h-8 w-8 text-slate-900 group-hover:text-[#B4975A] transition-colors" />
               </motion.div>
-              <span className="text-2xl font-bold font-serif tracking-tight text-slate-900">
-                CyBarPrep
+              <span className="text-xl md:text-2xl font-bold font-serif tracking-tight text-slate-900">
+                CyAzor Bar Prep
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-10">
+          <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -57,6 +57,10 @@ const Navbar: React.FC = () => {
                 )}
               </Link>
             ))}
+            
+            {/* Language Translator Desktop */}
+            <GoogleTranslate />
+
             <motion.a
               whileHover={{ scale: 1.05, backgroundColor: "#a3864d" }}
               whileTap={{ scale: 0.98 }}
@@ -69,8 +73,8 @@ const Navbar: React.FC = () => {
             </motion.a>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile menu toggle container */}
+          <div className="md:hidden flex items-center gap-4">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-slate-600 hover:text-slate-900 focus:outline-none p-2"
@@ -103,6 +107,13 @@ const Navbar: React.FC = () => {
                   {link.name}
                 </Link>
               ))}
+              
+              {/* Language Translator Mobile */}
+              <div className="py-2 border-t border-slate-100">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Language</p>
+                <GoogleTranslate />
+              </div>
+
               <a
                 href="https://calendly.com/placeholder"
                 target="_blank"

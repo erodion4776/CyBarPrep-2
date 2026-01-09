@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -18,7 +17,7 @@ const Terms: React.FC = () => {
           <section>
             <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">1. Scope of Services</h2>
             <p>
-              CyBarPrep provides strategic consulting and educational resources designed for foreign-trained attorneys preparing for U.S. Bar Exams. 
+              CyAzor Bar Prep provides strategic consulting and educational resources designed for foreign-trained attorneys preparing for U.S. Bar Exams. 
             </p>
             <p className="mt-4 font-medium text-slate-900 italic">
               Crucial Disclaimer: Our services do not constitute legal representation, legal advice, or an attorney-client relationship for the purpose of bar admission filings or any other legal matter. We provide strategic navigation and technical feedback only.
@@ -47,7 +46,7 @@ const Terms: React.FC = () => {
           <section>
             <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">4. Intellectual Property</h2>
             <p>
-              All materials provided, including but not limited to eBooks, strategy guides, templates, and video modules, are the exclusive intellectual property of CyBarPrep. 
+              All materials provided, including but not limited to eBooks, strategy guides, templates, and video modules, are the exclusive intellectual property of CyAzor Bar Prep. 
             </p>
             <p className="mt-4">
               These materials are for your personal use only. Unauthorized redistribution, reproduction, or commercial use of our proprietary materials is strictly prohibited and will be met with legal action.
@@ -57,7 +56,7 @@ const Terms: React.FC = () => {
           <section>
             <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">5. Limitation of Liability</h2>
             <p>
-              CyBarPrep provides guidance based on experience and rubric analysis, but we do not guarantee specific outcomes on the U.S. Bar Exam. Success depends on individual candidate execution and examiner discretion.
+              CyAzor Bar Prep provides guidance based on experience and rubric analysis, but we do not guarantee specific outcomes on the U.S. Bar Exam. Success depends on individual candidate execution and examiner discretion.
             </p>
           </section>
 

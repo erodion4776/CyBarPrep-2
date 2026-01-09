@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Mail, Gavel } from 'lucide-react';
@@ -12,7 +11,7 @@ const Footer: React.FC = () => {
             <Link to="/" className="flex items-center space-x-3 mb-8">
               <Gavel strokeWidth={1.5} className="h-6 w-6 text-slate-900" />
               <span className="text-xl font-bold font-serif tracking-tight text-slate-900">
-                CyBarPrep
+                CyAzor Bar Prep
               </span>
             </Link>
             <p className="text-slate-500 max-w-sm mb-10 leading-relaxed font-light italic">
@@ -47,7 +46,7 @@ const Footer: React.FC = () => {
               For professional inquiries and bespoke institutional support:
             </p>
             <p className="text-slate-900 font-bold text-sm tracking-wide">
-              strategic@cybarprep.com
+              strategic@cyazorbarprep.com
             </p>
           </div>
         </div>
@@ -55,10 +54,10 @@ const Footer: React.FC = () => {
         <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
             <p className="text-[10px] text-slate-400 mb-2 uppercase tracking-[0.1em] font-medium max-w-2xl mx-auto italic">
-              Legal Notice: CyBarPrep provides informational and strategic consulting. This service does not constitute legal representation, nor does it establish an attorney-client relationship for legal filings.
+              Legal Notice: CyAzor Bar Prep provides informational and strategic consulting. This service does not constitute legal representation, nor does it establish an attorney-client relationship for legal filings.
             </p>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-              &copy; {new Date().getFullYear()} CyBarPrep. Independent Professional Guidance.
+              &copy; 2026 CyAzor Bar Prep. Independent Professional Guidance.
             </p>
           </div>
           <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">

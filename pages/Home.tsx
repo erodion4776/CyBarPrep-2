@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle } from 'lucide-react';
@@ -177,7 +176,7 @@ const Home: React.FC = () => {
       {/* BAR REALITY CHECK QUIZ */}
       <BarQuizSection />
 
-      {/* THE CYBARPREP DIFFERENCE */}
+      {/* THE CYAZOR DIFFERENCE */}
       <section className="py-24 md:py-32 px-6 bg-slate-900 text-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
@@ -215,7 +214,7 @@ const Home: React.FC = () => {
               <div className="absolute top-6 right-8 inline-flex items-center gap-2 text-[#B4975A] font-bold uppercase tracking-widest text-[10px]">
                 <CheckCircle size={14} /> Passing Score
               </div>
-              <h4 className="text-[#B4975A] font-bold uppercase tracking-[0.2em] text-[10px] mb-6">CyBarPrep Strategy</h4>
+              <h4 className="text-[#B4975A] font-bold uppercase tracking-[0.2em] text-[10px] mb-6">CyAzor Bar Prep Strategy</h4>
               <p className="text-xl md:text-2xl font-serif italic text-white leading-relaxed mb-8">
                 "The defendant breached his duty of care when he failed to secure the construction site, despite the high volume of pedestrian traffic. This failure created a foreseeable risk..."
               </p>
@@ -244,7 +243,7 @@ const Home: React.FC = () => {
           >
             {[
               {
-                text: "I failed twice using big box prep courses. CyBarPrep fixed my MPT structure in one session. The difference was night and day.",
+                text: "I failed twice using big box prep courses. CyAzor Bar Prep fixed my MPT structure in one session. The difference was night and day.",
                 author: "Foreign-Trained Attorney, NY Bar"
               },
               {
@@ -319,7 +318,7 @@ const Home: React.FC = () => {
           >
             {[
               { icon: Target, title: "Focused Strategy", text: "Forget the 100-page outlines. We focus on exactly what you need to pass, specifically tailored for the foreign-trained perspective and logic." },
-              { icon: CheckCircle2, title: "Direct Feedback", text: "Get precise, expert-level written feedback on MEEs and MPTs from someone who understands the grading rubric from a practitioner's lens." },
+              { icon: CheckCircle2, title: "Direct Feedback", text: "Get precise, expert-level written feedback on MEEs, MPTs, and MBEs from someone who understands the grading rubric from a practitioner's lens." },
               { icon: Users, title: "Independent Advice", text: "No corporate agenda. Just honest, practical guidance on eligibility, state selection, and study planning that larger companies overlook." }
             ].map((pillar, i) => (
               <motion.div key={i} variants={fadeInUp} className="group">
@@ -358,7 +357,7 @@ const Home: React.FC = () => {
             >
               <img 
                 src="https://i.ibb.co/sJVy0C5s/1767935007259-019ba122-c25c-7f8a-af4a-f23a9a1f3085.jpg" 
-                alt="Founder of CyBarPrep" 
+                alt="Founder of CyAzor Bar Prep" 
                 className="h-48 w-48 md:h-64 md:w-64 rounded-xl object-cover shadow-2xl border border-slate-200 bg-white p-1"
               />
             </motion.div>

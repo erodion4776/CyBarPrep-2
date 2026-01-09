@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { questionBank, Question } from '../data/questionBank';
@@ -144,7 +143,7 @@ const BarQuizSection: React.FC = () => {
         </motion.div>
         
         <p className="mt-8 text-center text-[10px] text-slate-400 uppercase tracking-widest font-medium">
-          One reality check per visit. Master the nuances with CyBarPrep.
+          One reality check per visit. Master the nuances with CyAzor Bar Prep.
         </p>
       </div>
     </section>

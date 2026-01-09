@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Download, Star, Clock, Check, ChevronRight, FileText } from 'lucide-react';
+import { Download, Star, Clock, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeInUp = {
@@ -23,7 +22,7 @@ const Courses: React.FC = () => {
           <div className="h-1 w-20 bg-[#B4975A] mb-8"></div>
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-slate-900 mb-8 leading-tight">Strategic Resources</h1>
           <p className="text-xl md:text-2xl text-slate-600 font-light max-w-2xl leading-relaxed">
-            High-value assets and intensive final programs designed to bridge the gap between foreign legal training and U.S. exam success.
+            High-value assets and intensive programs designed to bridge the gap between foreign legal training and U.S. exam success.
           </p>
         </motion.div>
 
@@ -34,7 +33,7 @@ const Courses: React.FC = () => {
             <div className="h-[1px] bg-slate-100 flex-grow"></div>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="max-w-3xl mx-auto">
             {/* Product 1 */}
             <motion.div 
               {...fadeInUp}
@@ -57,43 +56,8 @@ const Courses: React.FC = () => {
                 </div>
               </div>
               <button disabled className="w-full py-5 rounded-md bg-white border border-slate-200 text-slate-400 font-bold uppercase tracking-widest text-xs cursor-not-allowed transition-all">
-                Coming Soon — Late 2024
+                Coming Soon — $100 (Late 2024)
               </button>
-            </motion.div>
-
-            {/* Product 2 */}
-            <motion.div 
-              {...fadeInUp}
-              whileHover={{ y: -5, boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.5)" }}
-              className="group bg-slate-900 text-white rounded-lg p-12 shadow-2xl relative overflow-hidden"
-            >
-              <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-[#B4975A] opacity-10 rounded-full blur-3xl"></div>
-              <h3 className="text-3xl font-serif font-bold mb-6">1-Month Final Sprint</h3>
-              <p className="text-slate-300 mb-10 leading-relaxed font-light text-lg">
-                The high-intensity finish line protocol. Exactly what to focus on in the final 30 days to optimize your score and clear the passing threshold.
-              </p>
-              <ul className="space-y-5 mb-10">
-                <li className="flex items-start gap-4 text-sm font-medium text-slate-100">
-                  <Check size={18} strokeWidth={3} className="text-[#B4975A] shrink-0 mt-0.5" />
-                  Structured day-by-day execution schedule
-                </li>
-                <li className="flex items-start gap-4 text-sm font-medium text-slate-100">
-                  <Check size={18} strokeWidth={3} className="text-[#B4975A] shrink-0 mt-0.5" />
-                  High-yield strategy video module library
-                </li>
-                <li className="flex items-start gap-4 text-sm font-medium text-slate-100">
-                  <Check size={18} strokeWidth={3} className="text-[#B4975A] shrink-0 mt-0.5" />
-                  Issue-spotting logic for foreign applicants
-                </li>
-              </ul>
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-5 rounded-md bg-[#B4975A] text-white font-bold uppercase tracking-widest text-xs hover:bg-[#a3864d] transition-all flex items-center justify-center gap-2"
-              >
-                Enroll Today — $149
-                <ChevronRight size={16} strokeWidth={3} />
-              </motion.button>
             </motion.div>
           </div>
         </section>
