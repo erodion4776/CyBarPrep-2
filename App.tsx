@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -9,8 +9,17 @@ import Community from './pages/Community';
 import Articles from './pages/Articles';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import BookingModal from './components/BookingModal';
 
 const App: React.FC = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenModal = () => setIsBookingModalOpen(true);
+    window.addEventListener('open-booking-modal', handleOpenModal);
+    return () => window.removeEventListener('open-booking-modal', handleOpenModal);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -23,11 +32,15 @@ const App: React.FC = () => {
           <Route path="/articles" element={<Articles />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
-          {/* Catch-all route to handle subdirectory mismatches */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <Footer />
+      
+      <BookingModal 
+        isOpen={isBookingModalOpen} 
+        onClose={() => setIsBookingModalOpen(false)} 
+      />
     </div>
   );
 };

@@ -20,6 +20,10 @@ const BarQuizSection: React.FC = () => {
     setIsAnswered(true);
   };
 
+  const handleBookClick = () => {
+    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+  };
+
   if (!selectedQuestion) return null;
 
   const isCorrect = selectedOption === selectedQuestion.correctAnswer;
@@ -123,17 +127,15 @@ const BarQuizSection: React.FC = () => {
                     </div>
 
                     <div className="shrink-0 w-full md:w-auto">
-                      <motion.a
+                      <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        href="https://calendly.com/placeholder"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={handleBookClick}
                         className="w-full inline-flex items-center justify-center gap-3 bg-[#B4975A] text-white px-8 py-5 rounded-md font-bold uppercase tracking-widest text-[10px] shadow-2xl hover:bg-[#a3864d] transition-all"
                       >
                         {isCorrect ? "Secure Your Score" : "Fix This Nuance"}
                         <ChevronRight size={14} strokeWidth={3} />
-                      </motion.a>
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>

@@ -51,6 +51,10 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 };
 
 const Home: React.FC = () => {
+  const handleBookClick = () => {
+    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+  };
+
   return (
     <div className="bg-[#F8FAFC]">
       {/* Hero Section */}
@@ -89,13 +93,13 @@ const Home: React.FC = () => {
                 className="flex flex-col sm:flex-row justify-start items-center gap-4 md:gap-6 mb-12"
               >
                 <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Link
-                    to="/consultations"
-                    className="w-full bg-slate-900 text-white px-10 py-5 rounded-md font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                  <button
+                    onClick={handleBookClick}
+                    className="w-full bg-slate-900 text-white px-10 py-5 rounded-md font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-center"
                   >
-                    Book a Consultation
+                    Book Free Case Review
                     <ArrowRight size={18} strokeWidth={1.5} />
-                  </Link>
+                  </button>
                 </motion.div>
                 
                 <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>

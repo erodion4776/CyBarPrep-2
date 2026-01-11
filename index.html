@@ -34,6 +34,36 @@
         display: flex;
         flex-direction: column;
       }
+
+      /* 1. Container Style */
+      .translate-widget-nav {
+        display: inline-block;
+        min-width: 140px;
+        min-height: 40px;
+        background-color: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 5px;
+        margin-left: 10px;
+      }
+
+      /* 2. Google Dropdown Styling */
+      .goog-te-combo {
+        width: 100% !important;
+        font-family: 'Inter', sans-serif !important;
+        color: #0F172A !important; /* Navy Blue */
+        font-weight: 500 !important;
+        border: none !important;
+        background: transparent !important;
+        outline: none !important;
+      }
+
+      /* 3. Hide Google Banner/Logo */
+      .goog-logo-link { display: none !important; }
+      .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+      .goog-te-gadget span { display: none !important; }
+      .goog-te-banner-frame { display: none !important; }
+      body { top: 0px !important; }
     </style>
     <script type="importmap">
     {
@@ -49,9 +79,27 @@
       }
     }
     </script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'es,fr,pt,zh-CN,ar',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </head>
   <body class="bg-[#F8FAFC] text-slate-800">
     <div id="root"></div>
+    
+    <!-- Hidden Netlify form for build-time detection -->
+    <form name="booking-leads" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+    </form>
+
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>

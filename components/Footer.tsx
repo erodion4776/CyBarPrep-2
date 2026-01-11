@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Mail, Gavel } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const handleBookClick = () => {
+    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+  };
+
   return (
     <footer className="bg-white border-t border-slate-200 pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -33,7 +37,14 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-[0.3em] mb-8 border-l-2 border-[#B4975A] pl-4">Navigation</h4>
             <ul className="space-y-4">
-              <li><Link to="/consultations" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Consultations</Link></li>
+              <li>
+                <button 
+                  onClick={handleBookClick}
+                  className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors"
+                >
+                  Book a Consultation
+                </button>
+              </li>
               <li><Link to="/courses" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Courses & eBooks</Link></li>
               <li><Link to="/articles" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Legal Articles</Link></li>
               <li><Link to="/community" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Global Community</Link></li>

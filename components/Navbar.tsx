@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Gavel } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import LanguageSelector from './LanguageSelector';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +14,11 @@ const Navbar: React.FC = () => {
     { name: 'Community', path: '/community' },
     { name: 'Articles', path: '/articles' },
   ];
+
+  const handleBookClick = () => {
+    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+    setIsOpen(false);
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -58,19 +62,17 @@ const Navbar: React.FC = () => {
               </Link>
             ))}
             
-            {/* Language Selector Desktop */}
-            <LanguageSelector />
+            {/* Google Translate Widget Desktop */}
+            <div id="google_translate_element" className="translate-widget-nav"></div>
 
-            <motion.a
+            <motion.button
               whileHover={{ scale: 1.05, backgroundColor: "#a3864d" }}
               whileTap={{ scale: 0.98 }}
-              href="https://calendly.com/placeholder"
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={handleBookClick}
               className="bg-[#B4975A] text-white px-6 py-3 rounded-md text-sm font-semibold transition-all shadow-sm hover:shadow-md"
             >
               Book a Call
-            </motion.a>
+            </motion.button>
           </div>
 
           {/* Mobile menu toggle container */}
@@ -108,20 +110,18 @@ const Navbar: React.FC = () => {
                 </Link>
               ))}
               
-              {/* Language Selector Mobile */}
+              {/* Google Translate Widget Mobile */}
               <div className="py-2 border-t border-slate-100">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Language</p>
-                <LanguageSelector />
+                <div id="google_translate_element" className="translate-widget-nav !ml-0 w-full"></div>
               </div>
 
-              <a
-                href="https://calendly.com/placeholder"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={handleBookClick}
                 className="bg-[#B4975A] text-white px-5 py-4 rounded-md text-center text-sm font-bold shadow-sm"
               >
                 Book a Call
-              </a>
+              </button>
             </div>
           </motion.div>
         )}
