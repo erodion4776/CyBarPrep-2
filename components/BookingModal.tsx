@@ -187,19 +187,24 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                     <p className="text-slate-500 text-base font-light mb-12">How would you like to start your journey?</p>
                     
                     <div className="space-y-4 max-w-sm mx-auto">
-                      <button
-                        onClick={() => handleAction(CALENDLY_LINK)}
-                        className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/20 hover:bg-slate-800 flex items-center px-8 gap-4 group"
-                      >
-                        <div className="h-10 w-10 bg-slate-800 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-[#B4975A] transition-colors">
-                          <Phone size={18} className="text-white" />
-                        </div>
-                        <div className="text-left">
-                          <p className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-0.5">Priority Step</p>
-                          <p className="text-sm">Book Free 15-Min Call</p>
-                        </div>
-                        <ChevronRight size={16} className="ml-auto group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        <button
+                          onClick={() => handleAction(CALENDLY_LINK)}
+                          className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/20 hover:bg-slate-800 flex items-center px-8 gap-4 group"
+                        >
+                          <div className="h-10 w-10 bg-slate-800 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-[#B4975A] transition-colors">
+                            <Phone size={18} className="text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-0.5">Priority Step</p>
+                            <p className="text-sm">Book Free 15-Min Call</p>
+                          </div>
+                          <ChevronRight size={16} className="ml-auto group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-1.5">
+                          ⚠️ 24-hour cancellation notice required.
+                        </p>
+                      </div>
 
                       <button
                         onClick={() => handleAction(PDF_LINK)}

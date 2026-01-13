@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, X, Info, ChevronRight, Zap } from 'lucide-react';
+import { Check, X, Info, ChevronRight, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ServiceCardProps {
@@ -269,6 +269,26 @@ const Consultations: React.FC = () => {
             />
           </motion.div>
         </div>
+
+        {/* Cancellation Policy Box */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-32 bg-orange-50/50 border border-orange-200 rounded-2xl p-10 md:p-12 shadow-sm"
+        >
+          <div className="flex flex-col md:flex-row gap-6 items-start">
+            <div className="h-12 w-12 bg-orange-100 rounded-xl flex items-center justify-center shrink-0">
+              <AlertTriangle className="text-orange-600" size={24} />
+            </div>
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-slate-900 mb-4">Cancellation & Rescheduling Policy</h3>
+              <p className="text-slate-700 leading-relaxed font-light">
+                To ensure professional standards and protect schedule availability, any session canceled or rescheduled without at least 24 hours' notice will be considered a "No-Show" and the session fee will be forfeited. These sessions cannot be rescheduled. Thank you for respecting our time.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Policy Section */}
         <motion.div 
