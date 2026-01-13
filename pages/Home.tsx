@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
 
@@ -277,6 +277,61 @@ const Home: React.FC = () => {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* NEW LEAD MAGNET SECTION */}
+      <section className="py-24 px-6 bg-[#F8FAFC]">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative border border-slate-800"
+          >
+            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+              <div className="absolute top-[-20%] right-[-10%] w-[120%] h-[140%] bg-gradient-to-bl from-[#B4975A] to-transparent rounded-full blur-[100px]"></div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-center">
+              <div className="p-12 md:p-20 lg:w-3/5 text-center lg:text-left relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-[#B4975A] text-[10px] uppercase font-bold tracking-[0.2em] mb-8 border border-slate-700">
+                  <FileText size={12} /> Strategic Advantage
+                </div>
+                <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+                  Not ready to book? <br />
+                  <span className="text-[#B4975A]">Grab our Free Guide.</span>
+                </h2>
+                <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed mb-10 max-w-xl">
+                  The "Foreign-Trained Attorney's Roadmap to US Licensure" — critical steps, state selection strategy, and common pitfalls to avoid.
+                </p>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleBookClick}
+                  className="bg-[#B4975A] text-white px-10 py-5 rounded-xl font-bold uppercase tracking-widest text-sm shadow-xl hover:bg-[#a3864d] transition-all flex items-center justify-center lg:justify-start gap-3 mx-auto lg:mx-0"
+                >
+                  Get the Free Guide
+                  <Download size={18} />
+                </motion.button>
+              </div>
+
+              <div className="lg:w-2/5 p-12 lg:p-0 flex justify-center lg:justify-end">
+                <div className="relative group">
+                   <div className="absolute -inset-4 bg-[#B4975A]/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                   <img 
+                    src="https://i.ibb.co/zTdGtH35/1767934818862-019ba120-0e5f-7229-b2f3-cccd5423fd90.jpg" 
+                    alt="Strategic Roadmap Guide" 
+                    className="w-64 h-80 md:w-80 md:h-[450px] object-cover rounded-2xl shadow-2xl border border-slate-700 relative z-10 transition-transform group-hover:-translate-y-4"
+                  />
+                  <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-slate-100 z-20 hidden md:block">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                    <p className="text-sm font-bold text-slate-900">Immediate Access</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
