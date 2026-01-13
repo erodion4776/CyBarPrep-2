@@ -10,6 +10,7 @@ import Articles from './pages/Articles';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import BookingModal from './components/BookingModal';
+import FloatingLeadButton from './components/FloatingLeadButton';
 
 const App: React.FC = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -36,6 +37,8 @@ const App: React.FC = () => {
         </Routes>
       </main>
       <Footer />
+      
+      <FloatingLeadButton />
       
       <BookingModal 
         isOpen={isBookingModalOpen} 
