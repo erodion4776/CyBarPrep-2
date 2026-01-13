@@ -16,7 +16,13 @@ const Navbar: React.FC = () => {
   ];
 
   const handleBookClick = () => {
-    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+      });
+    }
     setIsOpen(false);
   };
 

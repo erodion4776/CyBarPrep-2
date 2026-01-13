@@ -52,7 +52,13 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 
 const Home: React.FC = () => {
   const handleBookClick = () => {
-    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+      });
+    }
   };
 
   return (
@@ -301,7 +307,7 @@ const Home: React.FC = () => {
                 </div>
                 <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
                   Not ready to book? <br />
-                  <span className="text-[#B4975A]">Grab our Free Guide.</span>
+                  <span className="text-[#B4975A]">Unlock our Roadmap.</span>
                 </h2>
                 <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed mb-10 max-w-xl">
                   The "Foreign-Trained Attorney's Roadmap to US Licensure" — critical steps, state selection strategy, and common pitfalls to avoid.
@@ -312,8 +318,8 @@ const Home: React.FC = () => {
                   onClick={handleBookClick}
                   className="bg-[#B4975A] text-white px-10 py-5 rounded-xl font-bold uppercase tracking-widest text-sm shadow-xl hover:bg-[#a3864d] transition-all flex items-center justify-center lg:justify-start gap-3 mx-auto lg:mx-0"
                 >
-                  Get the Free Guide
-                  <Download size={18} />
+                  Book Strategy Call
+                  <ArrowRight size={18} />
                 </motion.button>
               </div>
 

@@ -21,7 +21,13 @@ const BarQuizSection: React.FC = () => {
   };
 
   const handleBookClick = () => {
-    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+      });
+    }
   };
 
   if (!selectedQuestion) return null;
@@ -29,7 +35,6 @@ const BarQuizSection: React.FC = () => {
   const isCorrect = selectedOption === selectedQuestion.correctAnswer;
 
   return (
-    // Explicitly using the lowercase section tag as a standard HTML element within JSX
     <section className="py-24 md:py-32 px-6 bg-white overflow-hidden">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">

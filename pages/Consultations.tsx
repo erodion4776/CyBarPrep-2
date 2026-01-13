@@ -16,7 +16,13 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, includes, excludes, note, disclaimer, highlight, badge, badgeColor }) => {
   const handleBookClick = () => {
-    window.dispatchEvent(new CustomEvent('open-booking-modal'));
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+      });
+    }
   };
 
   return (
