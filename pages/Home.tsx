@@ -377,8 +377,8 @@ const Home: React.FC = () => {
           
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-200">
             <FAQItem 
-              question="Do you help with Bar Eligibility filing?" 
-              answer="No. We provide strategic guidance on the pathway and state selection based on your profile, but you must handle the formal application paperwork and filings yourself. Our focus is on the strategy and execution of the exam itself." 
+              question="Do you help with the Bar Application process?" 
+              answer="No. We provide strategic guidance on the pathway and state selection based on your profile, but you must handle the formal application submission yourself. Our focus is on the strategy and execution of the exam itself." 
             />
             <FAQItem 
               question="Is this for the UBE or California?" 
