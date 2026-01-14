@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
         <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
             <p className="text-[10px] text-slate-400 mb-2 uppercase tracking-[0.1em] font-medium max-w-2xl mx-auto italic">
-              Legal Notice: CyAzor Bar Prep provides informational and strategic consulting. This service does not constitute legal representation, nor does it establish an attorney-client relationship for legal filings.
+              LEGAL NOTICE: CYAZOR BAR PREP PROVIDES INFORMATIONAL AND STRATEGIC CONSULTING. THIS SERVICE DOES NOT CONSTITUTE LEGAL REPRESENTATION, NOR DOES IT ESTABLISH AN ATTORNEY-CLIENT RELATIONSHIP.
             </p>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
               &copy; 2026 CyAzor Bar Prep. Independent Professional Guidance.

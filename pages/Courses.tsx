@@ -37,7 +37,6 @@ const Courses: React.FC = () => {
           
           <div className="max-w-3xl mx-auto">
             {/* Product 1 */}
-            {/* Fix: spreading fadeInUp which now has a compatible transition.ease type */}
             <motion.div 
               {...fadeInUp}
               whileHover={{ y: -5, borderColor: "#cbd5e1" }}
@@ -59,7 +58,7 @@ const Courses: React.FC = () => {
                 </div>
               </div>
               <button disabled className="w-full py-5 rounded-md bg-white border border-slate-200 text-slate-400 font-bold uppercase tracking-widest text-xs cursor-not-allowed transition-all">
-                Coming Soon — $100 (Late 2024)
+                Coming Soon
               </button>
             </motion.div>
           </div>
