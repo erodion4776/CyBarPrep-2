@@ -103,7 +103,7 @@ const Home: React.FC = () => {
                     onClick={handleBookClick}
                     className="w-full bg-slate-900 text-white px-10 py-5 rounded-md font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-center"
                   >
-                    Book Free Case Review
+                    Book a Free Strategy Call
                     <ArrowRight size={18} strokeWidth={1.5} />
                   </button>
                 </motion.div>
