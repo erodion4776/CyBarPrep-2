@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ExternalLink, ShieldAlert, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -67,12 +66,12 @@ const Community: React.FC = () => {
           <motion.a
             whileHover={{ scale: 1.05, backgroundColor: "#B4975A", color: "#ffffff" }}
             whileTap={{ scale: 0.98 }}
-            href="https://skool.com/placeholder"
+            href="https://www.skool.com/@cynthia-azor-2820?g=cyazor-law-and-digital-hub-1083"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-4 bg-white text-slate-900 px-12 py-6 rounded-md font-bold transition-all text-sm uppercase tracking-widest shadow-2xl"
           >
-            Access Skool Community
+            Join Skool Community
             <ExternalLink size={18} strokeWidth={2.5} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </motion.a>
         </motion.div>
