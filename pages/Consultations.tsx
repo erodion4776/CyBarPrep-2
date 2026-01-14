@@ -139,8 +139,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 };
 
 const Consultations: React.FC = () => {
-  const PAID_CALENDLY_URL = "https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq";
-  const FREE_CALENDLY_URL = "https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor";
+  const PAID_CALENDLY_URL = "https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor";
+  const FREE_CALENDLY_URL = "https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq";
 
   return (
     <div className="py-12 md:py-32 px-6 bg-[#F8FAFC]">

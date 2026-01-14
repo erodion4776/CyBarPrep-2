@@ -56,7 +56,7 @@ const Home: React.FC = () => {
     if (window.Calendly) {
       // @ts-ignore
       window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+        url: 'https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor'
       });
     }
   };
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
     if (window.Calendly) {
       // @ts-ignore
       window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor'
+        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
       });
     }
   };
