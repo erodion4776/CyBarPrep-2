@@ -110,7 +110,7 @@ const Home: React.FC = () => {
               >
                 <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <button
-                    onClick={handlePaidCall}
+                    onClick={handleFreeCall}
                     className="w-full bg-slate-900 text-white px-10 py-5 rounded-md font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-center"
                   >
                     Book a Free Strategy Call
