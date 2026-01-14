@@ -7,6 +7,7 @@ interface ServiceCardProps {
   price: string;
   includes: string[];
   excludes: string[];
+  calendlyUrl: string;
   note?: string;
   disclaimer?: string;
   highlight?: boolean;
@@ -14,13 +15,24 @@ interface ServiceCardProps {
   badgeColor?: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, includes, excludes, note, disclaimer, highlight, badge, badgeColor }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ 
+  title, 
+  price, 
+  includes, 
+  excludes, 
+  calendlyUrl,
+  note, 
+  disclaimer, 
+  highlight, 
+  badge, 
+  badgeColor 
+}) => {
   const handleBookClick = () => {
     // @ts-ignore
     if (window.Calendly) {
       // @ts-ignore
       window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+        url: calendlyUrl
       });
     }
   };
@@ -127,6 +139,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, includes, exclu
 };
 
 const Consultations: React.FC = () => {
+  const PAID_CALENDLY_URL = "https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq";
+  const FREE_CALENDLY_URL = "https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor";
+
   return (
     <div className="py-12 md:py-32 px-6 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto">
@@ -177,6 +192,7 @@ const Consultations: React.FC = () => {
             <ServiceCard
               title="Initial Case Review (Screening)"
               price="Free"
+              calendlyUrl={FREE_CALENDLY_URL}
               badge="New Client Starter"
               badgeColor="bg-slate-500"
               includes={[
@@ -218,6 +234,7 @@ const Consultations: React.FC = () => {
             <ServiceCard
               title="Full Strategy + Feedback"
               price="$100"
+              calendlyUrl={PAID_CALENDLY_URL}
               highlight={true}
               includes={[
                 "Initial strategy session (45-60 min)",
@@ -234,6 +251,7 @@ const Consultations: React.FC = () => {
             <ServiceCard
               title="Strategy-Only Session"
               price="$100"
+              calendlyUrl={PAID_CALENDLY_URL}
               includes={[
                 "Strategic roadmap session (60 min)",
                 "Study planning & resource selection",
@@ -248,6 +266,7 @@ const Consultations: React.FC = () => {
             <ServiceCard
               title="Technical Feedback Only"
               price="$100"
+              calendlyUrl={PAID_CALENDLY_URL}
               includes={[
                 "Rigorous review of MEE or MPT",
                 "Written feedback on technical execution",
@@ -262,6 +281,7 @@ const Consultations: React.FC = () => {
             <ServiceCard
               title="Eligibility Guidance"
               price="$100"
+              calendlyUrl={PAID_CALENDLY_URL}
               includes={[
                 "Pathway evaluation (LLM vs Non-LLM)",
                 "Strategic state selection insights",
