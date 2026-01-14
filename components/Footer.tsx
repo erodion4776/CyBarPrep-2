@@ -1,18 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Twitter, Mail, Gavel } from 'lucide-react';
+import { Linkedin, Twitter, Mail, Gavel, ExternalLink } from 'lucide-react';
 
 const Footer: React.FC = () => {
-  const handleBookClick = () => {
-    // @ts-ignore
-    if (window.Calendly) {
-      // @ts-ignore
-      window.Calendly.initPopupWidget({
-        url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
-      });
-    }
-  };
-
   return (
     <footer className="bg-white border-t border-slate-200 pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -44,16 +34,40 @@ const Footer: React.FC = () => {
             <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-[0.3em] mb-8 border-l-2 border-[#B4975A] pl-4">Navigation</h4>
             <ul className="space-y-4">
               <li>
-                <button 
-                  onClick={handleBookClick}
-                  className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors"
+                <Link 
+                  to="/consultations"
+                  className="text-slate-500 hover:text-[#B4975A] text-sm font-medium transition-colors"
                 >
                   Book a Consultation
-                </button>
+                </Link>
               </li>
-              <li><Link to="/courses" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Courses & eBooks</Link></li>
-              <li><Link to="/articles" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Legal Articles</Link></li>
-              <li><Link to="/community" className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">Global Community</Link></li>
+              <li>
+                <Link 
+                  to="/courses" 
+                  className="text-slate-500 hover:text-[#B4975A] text-sm font-medium transition-colors"
+                >
+                  Courses & eBooks
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/articles" 
+                  className="text-slate-500 hover:text-[#B4975A] text-sm font-medium transition-colors"
+                >
+                  Legal Articles
+                </Link>
+              </li>
+              <li>
+                <a 
+                  href="https://www.skool.com/@cynthia-azor-2820?g=cyazor-law-and-digital-hub-1083" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-slate-500 hover:text-[#B4975A] text-sm font-medium transition-colors flex items-center gap-1.5"
+                >
+                  Global Community
+                  <ExternalLink size={12} className="opacity-50" />
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -78,8 +92,8 @@ const Footer: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-             <Link to="/privacy" className="hover:text-slate-900 transition-colors">Privacy</Link>
-             <Link to="/terms" className="hover:text-slate-900 transition-colors">Terms</Link>
+             <Link to="/privacy" className="hover:text-[#B4975A] transition-colors">Privacy</Link>
+             <Link to="/terms" className="hover:text-[#B4975A] transition-colors">Terms</Link>
           </div>
         </div>
       </div>
