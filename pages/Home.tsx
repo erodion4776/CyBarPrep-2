@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
 
@@ -51,12 +51,22 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 };
 
 const Home: React.FC = () => {
-  const handleBookClick = () => {
+  const handlePaidCall = () => {
     // @ts-ignore
     if (window.Calendly) {
       // @ts-ignore
       window.Calendly.initPopupWidget({
         url: 'https://calendly.com/cynobas/strategy-call-with-cynthia-azor-esq'
+      });
+    }
+  };
+
+  const handleFreeCall = () => {
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/cynobas/bar-prep-strategy-with-cynthia-azor'
       });
     }
   };
@@ -100,7 +110,7 @@ const Home: React.FC = () => {
               >
                 <motion.div className="w-full sm:w-auto" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <button
-                    onClick={handleBookClick}
+                    onClick={handlePaidCall}
                     className="w-full bg-slate-900 text-white px-10 py-5 rounded-md font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 text-center"
                   >
                     Book a Free Strategy Call
@@ -312,7 +322,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* NEW LEAD MAGNET SECTION */}
+      {/* UPDATED LEAD MAGNET SECTION */}
       <section className="py-24 px-6 bg-[#F8FAFC]">
         <div className="max-w-7xl mx-auto">
           <motion.div 
@@ -331,21 +341,33 @@ const Home: React.FC = () => {
                   <FileText size={12} /> Strategic Advantage
                 </div>
                 <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
-                  Not ready to book? <br />
-                  <span className="text-[#B4975A]">Unlock our Roadmap.</span>
+                  Choose Your Path to <span className="text-[#B4975A]">Passing</span>
                 </h2>
                 <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed mb-10 max-w-xl">
-                  The "Foreign-Trained Attorney's Roadmap to US Licensure" — critical steps, state selection strategy, and common pitfalls to avoid.
+                  Ready for a deep dive? Book a full strategy session. Just starting out? Unlock our free roadmap.
                 </p>
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleBookClick}
-                  className="bg-[#B4975A] text-white px-10 py-5 rounded-xl font-bold uppercase tracking-widest text-sm shadow-xl hover:bg-[#a3864d] transition-all flex items-center justify-center lg:justify-start gap-3 mx-auto lg:mx-0"
-                >
-                  Book Strategy Call
-                  <ArrowRight size={18} />
-                </motion.button>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handlePaidCall}
+                    className="w-full sm:w-auto bg-[#B4975A] text-white px-8 py-5 rounded-xl font-bold uppercase tracking-widest text-xs shadow-xl hover:bg-[#a3864d] transition-all flex items-center justify-center gap-3"
+                  >
+                    Book Full Strategy Call ($100)
+                    <ArrowRight size={16} strokeWidth={3} />
+                  </motion.button>
+                  
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleFreeCall}
+                    className="w-full sm:w-auto bg-transparent text-white border-2 border-white px-8 py-[1.15rem] rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-slate-900 transition-all flex items-center justify-center gap-3"
+                  >
+                    Get Free Roadmap & Screening
+                    <Download size={16} strokeWidth={3} />
+                  </motion.button>
+                </div>
               </div>
 
               <div className="lg:w-2/5 p-12 lg:p-0 flex justify-center lg:justify-end">
