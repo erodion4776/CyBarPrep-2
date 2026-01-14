@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import About from './pages/About';
 import Consultations from './pages/Consultations';
 import Courses from './pages/Courses';
 import Community from './pages/Community';
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/consultations" element={<Consultations />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/community" element={<Community />} />

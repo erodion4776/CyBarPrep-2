@@ -1,12 +1,14 @@
+
 import React from 'react';
 import { Download, Star, Clock, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+// Fixed: Explicitly cast ease to any to resolve compatibility issues with Framer Motion's Easing type in a spread object
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }
 };
 
 const Courses: React.FC = () => {
@@ -35,6 +37,7 @@ const Courses: React.FC = () => {
           
           <div className="max-w-3xl mx-auto">
             {/* Product 1 */}
+            {/* Fix: spreading fadeInUp which now has a compatible transition.ease type */}
             <motion.div 
               {...fadeInUp}
               whileHover={{ y: -5, borderColor: "#cbd5e1" }}
