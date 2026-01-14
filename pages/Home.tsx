@@ -162,8 +162,8 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Positioning Statement Section */}
-      <section className="py-24 md:py-32 px-6">
+      {/* Meet the Strategist Section */}
+      <section className="py-24 md:py-32 px-6 bg-white">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -171,14 +171,39 @@ const Home: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="bg-white p-10 md:p-20 rounded-lg border border-slate-200 shadow-xl relative overflow-hidden text-center">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#B4975A] text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest whitespace-nowrap">
-              Our Core Philosophy
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 p-10 md:p-16 rounded-3xl border border-slate-100 bg-[#F8FAFC] shadow-sm relative overflow-hidden">
+            {/* Subtle background pattern */}
+            <div className="absolute top-0 right-0 opacity-[0.03] pointer-events-none">
+              <Shield size={300} strokeWidth={0.5} className="text-slate-900" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold mb-8 text-slate-900 italic">"Focused on your success, not a corporate bottom line."</h2>
-            <p className="text-lg md:text-2xl text-slate-700 leading-relaxed font-medium">
-              I am an independent attorney providing strategic bar exam guidance based on real-world experience. I am not a traditional bar prep company, and services are limited in scope and clearly defined for maximum impact.
-            </p>
+
+            <div className="relative shrink-0">
+               <img 
+                src="https://i.ibb.co/tpVvydGn/1768391419081-019bbc57-559b-7f19-9797-2c39a5070872.png" 
+                alt="Cynthia Azor, Esq." 
+                className="w-32 h-32 md:w-44 md:h-44 object-cover rounded-full border-4 border-[#B4975A] shadow-xl relative z-10"
+              />
+              <div className="absolute -bottom-2 -right-2 bg-white p-2.5 rounded-full shadow-lg border border-slate-100 z-20">
+                <Shield className="text-[#B4975A] w-5 h-5" />
+              </div>
+              {/* Gold ring flair */}
+              <div className="absolute inset-0 rounded-full border border-[#B4975A]/20 scale-110"></div>
+            </div>
+            
+            <div className="text-center md:text-left relative z-10">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-2">Meet Cynthia Azor, Esq.</h2>
+              <p className="text-[#B4975A] font-bold uppercase tracking-[0.2em] text-[10px] mb-6">Foreign-Trained Attorney | Bar Exam Strategist</p>
+              <p className="text-slate-600 text-lg leading-relaxed font-light mb-8">
+                "I passed the U.S. Bar Exam on my first sitting by mastering the exam's logic, not just memorizing the law. Now, I help other foreign-trained attorneys navigate this complex process with focused strategy and disciplined execution."
+              </p>
+              <Link 
+                to="/about" 
+                className="inline-flex items-center gap-2 text-slate-900 font-bold text-sm uppercase tracking-widest hover:text-[#B4975A] transition-colors group"
+              >
+                Read My Full Story 
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </motion.div>
       </section>
