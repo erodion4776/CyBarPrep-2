@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Phone } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
 
@@ -220,6 +220,61 @@ const Home: React.FC = () => {
 
       {/* BAR REALITY CHECK QUIZ */}
       <BarQuizSection />
+
+      {/* APPLICATION & LICENSING GUIDANCE SECTION */}
+      <section className="py-24 md:py-32 px-6 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20"
+          >
+            <div className="lg:w-1/2">
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-8 leading-tight">
+                Foreign-Trained Lawyers: <br />
+                <span className="text-[#B4975A]">Exam Application & Licensing Guidance</span>
+              </h2>
+              <p className="text-slate-600 text-lg md:text-xl font-light leading-relaxed mb-10">
+                We provide strategic guidance to help foreign-trained lawyers understand eligibility, prepare required documents, and navigate the application process to sit for bar and licensing exams in the U.S. This service focuses on exam application and registration support only, helping you avoid delays, confusion, and common filing mistakes.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a 
+                  href="/ebooks/application-guide.pdf" 
+                  className="inline-flex items-center justify-center gap-3 border-2 border-slate-900 text-slate-900 px-8 py-4 rounded-md font-bold text-sm uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"
+                >
+                  <FileText size={18} />
+                  Download Free Application Guide
+                </a>
+                <button 
+                  onClick={handlePaidCall}
+                  className="inline-flex items-center justify-center gap-3 bg-[#B4975A] text-white px-8 py-4 rounded-md font-bold text-sm uppercase tracking-widest shadow-lg hover:bg-[#a3864d] transition-all"
+                >
+                  <Calendar size={18} />
+                  Book a Consultation ($100)
+                </button>
+              </div>
+            </div>
+            <div className="lg:w-1/2 relative">
+              <img 
+                src="https://i.ibb.co/h170sq6J/1767934729924-019ba11e-deba-7788-8276-fc15561ffccc.jpg" 
+                alt="Licensing Documentation" 
+                className="w-full h-[400px] object-cover rounded-2xl shadow-xl border border-slate-200"
+              />
+              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-lg border border-slate-100 hidden md:block max-w-[200px]">
+                <Shield className="text-[#B4975A] mb-3" size={24} />
+                <p className="text-xs font-bold text-slate-900 uppercase tracking-widest leading-snug">Registration Accuracy Check</p>
+              </div>
+            </div>
+          </motion.div>
+          <div className="mt-16 pt-8 border-t border-slate-200">
+            <p className="text-[10px] text-slate-400 italic text-center max-w-3xl mx-auto">
+              Disclaimer: This service does not provide exam tutorials or coaching and does not guarantee admission to any exam. Application outcomes depend on individual credentials and the requirements of relevant regulatory authorities.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* THE CYAZOR DIFFERENCE */}
       <section className="py-24 md:py-32 px-6 bg-slate-900 text-white overflow-hidden relative">
