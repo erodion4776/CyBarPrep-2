@@ -1,10 +1,12 @@
 import React from 'react';
 import { ExternalLink, ShieldAlert, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
+import MailchimpForm from '../components/MailchimpForm';
 
 const Community: React.FC = () => {
   return (
-    <div className="py-24 md:py-48 px-6 bg-slate-900 text-white min-h-[90vh] flex items-center overflow-hidden relative">
+    <>
+      <div className="py-24 md:py-48 px-6 bg-slate-900 text-white min-h-[90vh] flex items-center overflow-hidden relative">
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.1, 0.05] }}
@@ -77,7 +79,9 @@ const Community: React.FC = () => {
         </motion.div>
       </div>
     </div>
-  );
+    <MailchimpForm />
+  </>
+);
 };
 
 export default Community;

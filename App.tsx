@@ -13,6 +13,7 @@ import Terms from './pages/Terms';
 import MPTStrategy from './pages/MPTStrategy';
 import MPTResource from './pages/MPTResource';
 import FloatingLeadButton from './components/FloatingLeadButton';
+import CyAzorChatbot from './components/CyAzorChatbot';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
       </main>
       {!isFunnelPage && <Footer />}
       {!isFunnelPage && <FloatingLeadButton />}
+      <CyAzorChatbot />
     </div>
   );
 };

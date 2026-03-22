@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
+import MailchimpForm from '../components/MailchimpForm';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -418,6 +419,9 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* MAILCHIMP SUBSCRIPTION */}
+      <MailchimpForm />
 
       {/* FREQUENTLY ASKED QUESTIONS */}
       <section className="py-24 md:py-32 px-6 bg-[#F8FAFC]">
