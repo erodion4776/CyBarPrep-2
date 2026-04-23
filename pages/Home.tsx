@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Calendar } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Target, Users, Shield, Star, ChevronDown, ChevronUp, AlertCircle, CheckCircle, FileText, Download, Calendar, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
 import MailchimpForm from '../components/MailchimpForm';
@@ -375,6 +375,56 @@ const Home: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* LEXAI MENTOR TEASER */}
+      <section className="py-24 md:py-32 px-6 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 text-[#B4975A] text-[10px] uppercase font-bold tracking-[0.2em] mb-8 border border-slate-100">
+                <Sparkles size={12} strokeWidth={2} /> Powered by Artificial Intelligence
+              </div>
+              <h2 className="text-3xl md:text-6xl font-serif font-bold text-slate-900 mb-8 leading-[1.1] tracking-tight">
+                Experience the <br /><span className="text-[#B4975A]">LexAI Legal Mentor</span>
+              </h2>
+              <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed font-light">
+                Our advanced AI mentor provides real-time strategic insights for international legal professionals. Bridging the gap between knowledge and execution.
+              </p>
+              <div className="flex flex-wrap gap-6">
+                <Link 
+                  to="/lex-ai" 
+                  className="bg-slate-900 text-white px-10 py-5 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center gap-3 shadow-xl"
+                >
+                  Access Mentorship Free
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#B4975A]/10 to-transparent -translate-x-12 translate-y-12 rounded-3xl -z-10"></div>
+              <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: '#fff' }}>
+                <iframe 
+                  src="https://cylawtech.netlify.app/lex-ai-embed" 
+                  style={{ width: '100%', height: '500px', border: 'none' }}
+                  title="LexAI Legal Mentor Preview"
+                ></iframe>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

@@ -14,6 +14,7 @@ const Navbar: React.FC = () => {
     { name: 'Courses & eBooks', path: '/courses' },
     { name: 'Community', path: '/community' },
     { name: 'Articles', path: '/articles' },
+    { name: 'LexAI Mentor', path: '/lex-ai' },
   ];
 
   const handleBookClick = () => {

@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import MPTStrategy from './pages/MPTStrategy';
 import MPTResource from './pages/MPTResource';
+import LexAI from './pages/LexAI';
 import FloatingLeadButton from './components/FloatingLeadButton';
 import CyAzorChatbot from './components/CyAzorChatbot';
 
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/courses" element={<Courses />} />
           <Route path="/community" element={<Community />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/lex-ai" element={<LexAI />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/mpt-strategy" element={<MPTStrategy />} />
