@@ -70,11 +70,11 @@ const LexAI: React.FC = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="lg:w-2/3 w-full"
           >
-            <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: '#fff' }}>
+            <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: 'transparent' }}>
               <iframe 
-                src="https://cylawtech.netlify.app/lex-ai-embed" 
-                style={{ width: '100%', height: '700px', border: 'none' }}
-                title="LexAI Legal Mentor"
+                src="https://cylawtech.netlify.app/lex-ai-embed?hideHeader=true" 
+                style={{ width: '100%', height: '600px', border: 'none' }}
+                title="LexAI Assistant"
               ></iframe>
             </div>
             

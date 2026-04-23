@@ -79,6 +79,7 @@ const Articles: React.FC = () => {
                   transition={{ duration: 0.8 }}
                   src={article.image} 
                   alt={article.title}
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 border-slate-200"
                 />
               </div>

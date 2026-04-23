@@ -147,6 +147,7 @@ const Home: React.FC = () => {
               <img 
                 src="https://i.ibb.co/Zz61FvNW/1767934656153-019ba11d-b570-747f-833f-a2358a9268c2.jpg" 
                 alt="Strategic Legal Guidance" 
+                referrerPolicy="no-referrer"
                 className="w-full h-64 md:h-[400px] lg:h-full object-cover rounded-2xl shadow-2xl border border-slate-200"
               />
               <div className="absolute -bottom-6 -right-4 md:-bottom-8 md:-left-8 bg-white p-4 md:p-6 rounded-lg shadow-xl border border-slate-100 max-w-[240px] md:max-w-xs z-20">
@@ -192,6 +193,7 @@ const Home: React.FC = () => {
                <img 
                 src="https://i.ibb.co/tpVvydGn/1768391419081-019bbc57-559b-7f19-9797-2c39a5070872.png" 
                 alt="Cynthia Azor, Esq." 
+                referrerPolicy="no-referrer"
                 className="w-32 h-32 md:w-44 md:h-44 object-cover rounded-full border-4 border-[#B4975A] shadow-xl relative z-10"
               />
               <div className="absolute -bottom-2 -right-2 bg-white p-2.5 rounded-full shadow-lg border border-slate-100 z-20">
@@ -261,6 +263,7 @@ const Home: React.FC = () => {
               <img 
                 src="https://i.ibb.co/h170sq6J/1767934729924-019ba11e-deba-7788-8276-fc15561ffccc.jpg" 
                 alt="Licensing Documentation" 
+                referrerPolicy="no-referrer"
                 className="w-full h-[400px] object-cover rounded-2xl shadow-xl border border-slate-200"
               />
               <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-lg border border-slate-100 hidden md:block max-w-[200px]">
@@ -416,11 +419,11 @@ const Home: React.FC = () => {
               className="relative"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-[#B4975A]/10 to-transparent -translate-x-12 translate-y-12 rounded-3xl -z-10"></div>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: '#fff' }}>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: 'transparent' }}>
                 <iframe 
-                  src="https://cylawtech.netlify.app/lex-ai-embed" 
-                  style={{ width: '100%', height: '500px', border: 'none' }}
-                  title="LexAI Legal Mentor Preview"
+                  src="https://cylawtech.netlify.app/lex-ai-embed?hideHeader=true" 
+                  style={{ width: '100%', height: '600px', border: 'none' }}
+                  title="LexAI Assistant"
                 ></iframe>
               </div>
             </motion.div>
@@ -554,6 +557,7 @@ const Home: React.FC = () => {
               <img 
                 src="https://i.ibb.co/sJVy0C5s/1767935007259-019ba122-c25c-7f8a-af4a-f23a9a1f3085.jpg" 
                 alt="Founder of CyAzor Bar Prep" 
+                referrerPolicy="no-referrer"
                 className="h-48 w-48 md:h-64 md:w-64 rounded-xl object-cover shadow-2xl border border-slate-200 bg-white p-1"
               />
             </motion.div>

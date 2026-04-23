@@ -44,6 +44,7 @@ const About: React.FC = () => {
                 <img 
                   src="https://i.ibb.co/tpVvydGn/1768391419081-019bbc57-559b-7f19-9797-2c39a5070872.png" 
                   alt="Cynthia Azor, Esq." 
+                  referrerPolicy="no-referrer"
                   className="w-full rounded-2xl shadow-2xl border-4 border-[#B4975A]/20"
                 />
                 {/* Decorative gold accent frame */}
