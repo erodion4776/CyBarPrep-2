@@ -13,6 +13,7 @@ import Terms from './pages/Terms';
 import MPTStrategy from './pages/MPTStrategy';
 import MPTResource from './pages/MPTResource';
 import LexAI from './pages/LexAI';
+import AdminDashboard from './pages/AdminDashboard';
 import FloatingLeadButton from './components/FloatingLeadButton';
 import CyAzorChatbot from './components/CyAzorChatbot';
 
@@ -20,7 +21,7 @@ const App: React.FC = () => {
   const location = useLocation();
   
   // Hide Navbar and Footer for the high-ticket sales funnel pages
-  const isFunnelPage = ['/mpt-strategy', '/mpt-resource'].includes(location.pathname);
+  const isFunnelPage = ['/mpt-strategy', '/mpt-resource', '/lex-ai', '/admin'].includes(location.pathname);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/mpt-strategy" element={<MPTStrategy />} />
           <Route path="/mpt-resource" element={<MPTResource />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

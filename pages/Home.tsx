@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import BarQuizSection from '../components/BarQuizSection';
 import MailchimpForm from '../components/MailchimpForm';
 
+import StrategyTeaser from '../components/StrategyTeaser';
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -419,13 +421,7 @@ const Home: React.FC = () => {
               className="relative"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-[#B4975A]/10 to-transparent -translate-x-12 translate-y-12 rounded-3xl -z-10"></div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', background: 'transparent' }}>
-                <iframe 
-                  src="https://cylawtech.netlify.app/lex-ai-embed?hideHeader=true" 
-                  style={{ width: '100%', height: '600px', border: 'none' }}
-                  title="LexAI Assistant"
-                ></iframe>
-              </div>
+              <StrategyTeaser />
             </motion.div>
           </div>
         </div>
