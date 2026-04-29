@@ -16,9 +16,15 @@ exports.handler = async (event) => {
     if (!url || !apiKey || !siteId) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: "Proxy Configuration Missing" })
+        body: JSON.stringify({ 
+          error: "Proxy Configuration Missing",
+          details: `Missing: ${[!url && 'URL', !apiKey && 'KEY', !siteId && 'SITE'].filter(Boolean).join(', ')}`,
+          env_keys: Object.keys(process.env).filter(k => k.includes('LEX'))
+        })
       };
     }
+
+    console.log(`[Proxy] URL: ${url.slice(0, 20)}...`);
 
     const response = await axios.post(url, {
       message,
@@ -27,7 +33,8 @@ exports.handler = async (event) => {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey
+        'Authorization': apiKey.startsWith('sk-') ? `Bearer ${apiKey}` : apiKey, // Handle both raw key and bearer
+        'x-api-key': apiKey // Some versions use this
       },
       timeout: 25000
     });
@@ -39,9 +46,14 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
+    console.error("[Proxy Error]", error.response?.data || error.message);
     return {
       statusCode: error.response?.status || 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ 
+        error: error.message,
+        remote_details: error.response?.data || "No remote details",
+        remote_status: error.response?.status
+      })
     };
   }
 };

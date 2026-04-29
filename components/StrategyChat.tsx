@@ -78,32 +78,33 @@ const StrategyChat: React.FC = () => {
     setShowPromo(false);
 
     try {
-      const response = await fetch('/api/strategy-engine', {
+      const response = await fetch('/.netlify/functions/lexai-proxy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           message: input,
-          history: messages.slice(-6), // Context window
-          jurisdiction: 'Cyprus',
+          context: { history: messages.slice(-5) }
         })
       });
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Nexus Node Desync: ${response.status}`);
+        const details = errorData.remote_details ? `\n(Remote Details: ${JSON.stringify(errorData.remote_details)})` : '';
+        const missing = errorData.details ? `\n(Config Error: ${errorData.details})` : '';
+        throw new Error(`${errorData.error || response.status}${details}${missing}`);
       }
 
       const data = await response.json();
-      const assistantMsg = data.response || "Neural link stable, but no tactical data package received.";
+      const assistantMsg = data.reply || data.message || data.response || "Neural link stable, but no tactical data package received.";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
     } catch (error: any) {
       console.error("Strategy Engine Error:", error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `**NEXUS ERROR:** ${error.message}. Please verify your connection or try again in a moment.` 
+        content: `**NEXUS CONNECTION ERROR:** ${error.message}\n\nPlease verify your Netlify environment variables (LEXAI_API_KEY, LEXAI_API_URL, LEXAI_SITE).` 
       }]);
     } finally {
       setIsLoading(false);
