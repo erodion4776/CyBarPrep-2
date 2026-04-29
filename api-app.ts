@@ -18,10 +18,15 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // AI Initialization
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL || "",
-  process.env.VITE_SUPABASE_ANON_KEY || ""
-);
+
+const getSupabase = () => {
+  const url = process.env.VITE_SUPABASE_URL;
+  const key = process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+};
+
+const supabase = getSupabase();
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
@@ -52,7 +57,7 @@ app.post("/api/strategy-engine", async (req: Request, res: Response) => {
     const queryEmbedding = embedResult.embeddings?.[0]?.values;
 
     let context = "General Strategic Frameworks.";
-    if (queryEmbedding) {
+    if (queryEmbedding && supabase) {
       const { data: matches } = await supabase.rpc("match_documents", {
         query_embedding: queryEmbedding,
         match_threshold: 0.5,
@@ -146,6 +151,7 @@ app.post("/api/embed", upload.single("file"), async (req: Request, res: Response
       const embedding = result.embeddings?.[0]?.values;
 
       if (!embedding) throw new Error("Embedding failure");
+      if (!supabase) throw new Error("Supabase client not initialized. Check your environment variables.");
 
       const { error } = await supabase.from("documents").insert({
         content: chunk,
@@ -170,6 +176,7 @@ app.post("/api/embed", upload.single("file"), async (req: Request, res: Response
 
 // Document Manager
 app.get("/api/documents", async (req: Request, res: Response) => {
+  if (!supabase) return res.status(503).json({ error: "Supabase service unavailable" });
   const { data, error } = await supabase
     .from("documents")
     .select("id, content, metadata")
@@ -180,6 +187,7 @@ app.get("/api/documents", async (req: Request, res: Response) => {
 });
 
 app.delete("/api/documents/:id", async (req: Request, res: Response) => {
+  if (!supabase) return res.status(503).json({ error: "Supabase service unavailable" });
   const { error } = await supabase.from("documents").delete().eq("id", req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true });
@@ -214,6 +222,7 @@ app.post("/api/chat", async (req: Request, res: Response) => {
     const queryEmbedding = embedResult.embeddings?.[0]?.values;
 
     if (!queryEmbedding) throw new Error("Vector sync failed");
+    if (!supabase) throw new Error("Supabase client not initialized");
 
     const { data: matches, error: searchError } = await supabase.rpc("match_documents", {
       query_embedding: queryEmbedding,

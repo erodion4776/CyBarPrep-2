@@ -14,7 +14,7 @@ const LexAI: React.FC = () => {
     <div className={`${isEmbed ? 'bg-transparent' : 'bg-[#0F172A]'} min-h-screen flex flex-col font-sans`}>
       {/* Immersive Header - Hidden in Embed Mode */}
       {!isEmbed && (
-        <div className="bg-[#0F172A] border-b border-white/5 px-6 py-5 flex items-center justify-between sticky top-0 z-50">
+        <div className="bg-[#0F172A] border-b border-white/5 px-4 md:px-6 py-4 md:py-5 flex flex-wrap md:flex-nowrap items-center justify-between sticky top-0 z-50 gap-4">
           <div className="flex items-center gap-6">
             <Link 
               to="/" 
@@ -48,7 +48,7 @@ const LexAI: React.FC = () => {
       )}
 
       {/* Main Command Center */}
-      <main className={`flex-grow flex flex-col items-center justify-center ${isEmbed ? 'p-0' : 'p-4 md:p-8'} relative overflow-hidden`}>
+      <main className={`flex-grow flex flex-col items-center ${isEmbed ? 'justify-start p-0' : 'justify-start md:justify-center p-4 pt-4 md:p-8'} relative`}>
         {/* Background Decorative Element */}
         {!isEmbed && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[#B4975A]/5 to-transparent opacity-20 pointer-events-none blur-[120px]"></div>

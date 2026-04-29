@@ -15,8 +15,6 @@ const StrategyChat: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<'checking' | 'connected' | 'error'>('checking');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
   const checkConnection = async () => {
     try {
       setConnectionStatus('checking');
@@ -35,8 +33,15 @@ const StrategyChat: React.FC = () => {
     checkConnection();
   }, []);
 
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
@@ -84,9 +89,9 @@ const StrategyChat: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[750px] bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-xl relative">
+    <div className="flex flex-col h-[70vh] md:h-[750px] min-h-[500px] max-h-[85vh] bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-xl relative">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-20">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white bg-white/80 backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 bg-gray-900 rounded-lg flex items-center justify-center text-white">
             <Bot size={18} />
@@ -104,7 +109,9 @@ const StrategyChat: React.FC = () => {
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-grow overflow-y-auto bg-gray-50/50 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+      <div 
+        ref={chatContainerRef}
+        className="flex-grow overflow-y-auto bg-gray-50/50 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
         <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
           <AnimatePresence initial={false}>
             {messages.map((msg, index) => (
@@ -151,7 +158,6 @@ const StrategyChat: React.FC = () => {
               </div>
             </motion.div>
           )}
-          <div ref={messagesEndRef} />
         </div>
       </div>
 
