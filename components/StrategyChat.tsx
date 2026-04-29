@@ -93,7 +93,8 @@ const StrategyChat: React.FC = () => {
         const errorData = await response.json();
         const errorMsg = errorData.error || `Strategic link failure: ${response.status}`;
         const detailInfo = errorData.details ? JSON.stringify(errorData.details) : null;
-        setDebugInfo(detailInfo);
+        const siteInfo = errorData.site_debug ? ` [Site: ${errorData.site_debug}]` : '';
+        setDebugInfo(detailInfo ? `${errorMsg}${siteInfo} | ${detailInfo}` : `${errorMsg}${siteInfo}`);
         throw new Error(errorMsg);
       }
 

@@ -42,21 +42,30 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
   const siteId = site || process.env.VITE_LEX_SITE_ID;
 
   if (!url || !apiKey || !siteId) {
-    return res.status(500).json({ error: "Backend LexAI configuration missing." });
+    const missing = [];
+    if (!url) missing.push("VITE_LEX_AI_URL");
+    if (!apiKey) missing.push("VITE_LEX_AI_KEY");
+    if (!siteId) missing.push("VITE_LEX_SITE_ID");
+    return res.status(500).json({ 
+      error: "Backend LexAI configuration missing.",
+      missing_vars: missing 
+    });
   }
 
   try {
-    console.log(`[LexAI Proxy] Initiating link to: ${url.slice(0, 15)}...`);
-    const response = await axios.post(url, {
+    console.log(`[LexAI Proxy] Sending request to Site: ${siteId.slice(0, 4)}...***`);
+    const payload = {
       message,
       site: siteId,
       jurisdiction: jurisdiction || 'Cyprus'
-    }, {
+    };
+    
+    const response = await axios.post(url, payload, {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey
       },
-      timeout: 15000 // Increased timeout
+      timeout: 20000 
     });
 
     res.json(response.data);
@@ -66,9 +75,10 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
     console.error(`[LexAI Proxy Error] Status: ${status}`, errorData);
     
     res.status(status).json({ 
-      error: `Strategic link synchronization failed (Node Error: ${status}).`,
+      error: `Strategic link failure: ${status}`,
       details: errorData,
-      endpoint_hint: url ? (url.includes('relevance') ? 'RelevanceAI' : 'Custom') : 'None'
+      site_debug: `${siteId.slice(0, 3)}...`,
+      endpoint: url.slice(0, 15) + "..."
     });
   }
 });
