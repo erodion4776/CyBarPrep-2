@@ -58,19 +58,21 @@ const StrategyChat: React.FC = () => {
     setShowPromo(false);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(import.meta.env.VITE_LEX_AI_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-api-key': import.meta.env.VITE_LEX_AI_KEY
         },
         body: JSON.stringify({
           message: input,
-          history: messages
+          site: import.meta.env.VITE_LEX_SITE_ID,
+          jurisdiction: 'Cyprus',
         })
       });
       
       const data = await response.json();
-      const assistantMsg = data.text || "Signal lost. Re-establishing strategic link...";
+      const assistantMsg = data.response || "Signal lost. Re-establishing strategic link...";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
     } catch (error) {
