@@ -57,26 +57,46 @@ const StrategyChat: React.FC = () => {
     setIsLoading(true);
     setShowPromo(false);
 
+    const url = import.meta.env.VITE_LEX_AI_URL;
+    const apiKey = import.meta.env.VITE_LEX_AI_KEY;
+    const siteId = import.meta.env.VITE_LEX_SITE_ID;
+
+    if (!url || !apiKey || !siteId) {
+      console.error("Missing LexAI environment variables:", { url, apiKey, siteId });
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: "System configuration error: Strategic API endpoints are not fully configured. Please reach out to your administrator to verify VITE_LEX_AI_URL, VITE_LEX_AI_KEY, and VITE_LEX_SITE_ID." 
+      }]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch(import.meta.env.VITE_LEX_AI_URL, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_LEX_AI_KEY
+          'x-api-key': apiKey
         },
         body: JSON.stringify({
           message: input,
-          site: import.meta.env.VITE_LEX_SITE_ID,
+          site: siteId,
           jurisdiction: 'Cyprus',
         })
       });
       
+      if (!response.ok) {
+        throw new Error(`Strategic link failure: ${response.status} ${response.statusText}`);
+      }
+
       const data = await response.json();
+      console.log("LexAI Response:", data);
       const assistantMsg = data.response || "Signal lost. Re-establishing strategic link...";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Error: Strategy Engine synchronization failed. Please try again." }]);
+      console.error("Strategy Engine Error:", error);
+      setMessages(prev => [...prev, { role: 'assistant', content: "Error: Strategy Engine synchronization failed. Please try again or check system logs." }]);
     } finally {
       setIsLoading(false);
     }
