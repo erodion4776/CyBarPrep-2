@@ -78,30 +78,32 @@ const StrategyChat: React.FC = () => {
     setShowPromo(false);
 
     try {
-      const response = await fetch('/.netlify/functions/lexai-proxy', {
+      const response = await fetch('/api/strategy-engine', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           message: input,
+          history: messages.slice(-6), // Context window
+          jurisdiction: 'Cyprus',
         })
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Strategic link failure: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Nexus Node Desync: ${response.status}`);
       }
 
       const data = await response.json();
-      const assistantMsg = data.reply || data.message || data.response || "Signal found, but no data received.";
+      const assistantMsg = data.response || "Neural link stable, but no tactical data package received.";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
     } catch (error: any) {
       console.error("Strategy Engine Error:", error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `**CONNECTION ERROR:** ${error.message}. Please check your Netlify environment variables.` 
+        content: `**NEXUS ERROR:** ${error.message}. Please verify your connection or try again in a moment.` 
       }]);
     } finally {
       setIsLoading(false);
