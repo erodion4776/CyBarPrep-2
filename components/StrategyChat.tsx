@@ -185,8 +185,15 @@ const StrategyChat: React.FC = () => {
             </div>
             {configStatus && (
               <div className="mt-2 pt-2 border-t border-rose-500/20 text-[8px] opacity-70">
-                <p className="text-white font-bold mb-1 underline uppercase">Connection Health:</p>
-                <p className="mb-2 italic opacity-60 leading-tight">If on Netlify, ensure variables match exactly (e.g. LEX_AI_KEY). If in AI Studio, check Settings.</p>
+                <div className="flex items-center justify-between text-white font-bold mb-1 underline uppercase">
+                  <span>Connection Health</span>
+                  <span className="text-[7px] opacity-50">{window.location.hostname.includes('netlify') ? 'NETLIFY MODE' : 'AI STUDIO MODE'}</span>
+                </div>
+                <p className="mb-2 italic opacity-60 leading-tight">
+                  {window.location.hostname.includes('netlify') 
+                    ? "SITE DETECTS NETLIFY: Please 'Clear Cache & Deploy' in Netlify dashboard if variables aren't appearing below." 
+                    : "SITE DETECTS AI STUDIO: Add variables to the gear icon (Settings) in the top-right."}
+                </p>
                 <div className="grid grid-cols-1 gap-y-1">
                   <p className="flex justify-between"><span>URL: {configStatus.url_preview}</span> <span>{configStatus.url_set ? '✅' : '❌'}</span></p>
                   <p className="flex justify-between"><span>KEY: {configStatus.key_preview}</span> <span>{configStatus.key_set ? '✅' : '❌'}</span></p>
