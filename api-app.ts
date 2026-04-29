@@ -37,9 +37,9 @@ app.get("/api/health", (req: Request, res: Response) => {
 app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
   const { message, site, jurisdiction } = req.body;
 
-  const url = process.env.VITE_LEX_AI_URL;
-  const apiKey = process.env.VITE_LEX_AI_KEY;
-  const siteId = site || process.env.VITE_LEX_SITE_ID;
+  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
+  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
+  const siteId = site || process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID;
 
   if (!url || !apiKey || !siteId) {
     const missing = [];
@@ -88,9 +88,9 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
 
 // LexAI Config Debug (Masked)
 app.get("/api/lex-config-status", (req: Request, res: Response) => {
-  const url = process.env.VITE_LEX_AI_URL;
-  const key = process.env.VITE_LEX_AI_KEY;
-  const site = process.env.VITE_LEX_SITE_ID;
+  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
+  const key = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
+  const site = process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID;
 
   res.json({
     url_set: !!url,

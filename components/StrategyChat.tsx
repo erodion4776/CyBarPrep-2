@@ -177,10 +177,13 @@ const StrategyChat: React.FC = () => {
             </div>
             {configStatus && (
               <div className="mt-2 pt-2 border-t border-rose-500/20 text-[8px] opacity-70">
-                <p>Config Check:</p>
-                <p>URL: {configStatus.url_preview} {configStatus.url_set ? '✅' : '❌'}</p>
-                <p>KEY: {configStatus.key_preview} {configStatus.key_set ? '✅' : '❌'}</p>
-                <p>SITE: {configStatus.site_preview} {configStatus.site_set ? '✅' : '❌'}</p>
+                <p className="text-white font-bold mb-1 underline">AI STUDIO SETUP REQUIRED:</p>
+                <p className="mb-2 italic opacity-60">Go to AI Studio "Settings" menu to add these keys:</p>
+                <div className="grid grid-cols-2 gap-y-1">
+                  <p>URL: {configStatus.url_preview} {configStatus.url_set ? '✅' : '❌'}</p>
+                  <p>KEY: {configStatus.key_preview} {configStatus.key_set ? '✅' : '❌'}</p>
+                  <p>SITE: {configStatus.site_preview} {configStatus.site_set ? '✅' : '❌'}</p>
+                </div>
               </div>
             )}
           </div>
