@@ -37,18 +37,22 @@ app.get("/api/health", (req: Request, res: Response) => {
 app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
   const { message, site, jurisdiction } = req.body;
 
-  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
-  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
-  const siteId = site || process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID;
+  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL || process.env.lex_ai_url;
+  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY || process.env.lex_ai_key;
+  const siteId = site || process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID || process.env.lex_site_id;
 
   if (!url || !apiKey || !siteId) {
     const missing = [];
-    if (!url) missing.push("VITE_LEX_AI_URL");
-    if (!apiKey) missing.push("VITE_LEX_AI_KEY");
-    if (!siteId) missing.push("VITE_LEX_SITE_ID");
+    if (!url) missing.push("LEX_AI_URL");
+    if (!apiKey) missing.push("LEX_AI_KEY");
+    if (!siteId) missing.push("LEX_SITE_ID");
+    
+    console.error("[LexAI Proxy] Missing Config. Available Env Keys:", Object.keys(process.env).filter(k => k.toLowerCase().includes('lex')));
+    
     return res.status(500).json({ 
-      error: "Backend LexAI configuration missing.",
-      missing_vars: missing 
+      error: "Backend Configuration Missing.",
+      missing_vars: missing,
+      env_keys_present: Object.keys(process.env).filter(k => k.toLowerCase().includes('lex'))
     });
   }
 
@@ -88,9 +92,9 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
 
 // LexAI Config Debug (Masked)
 app.get("/api/lex-config-status", (req: Request, res: Response) => {
-  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
-  const key = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
-  const site = process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID;
+  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL || process.env.lex_ai_url;
+  const key = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY || process.env.lex_ai_key;
+  const site = process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID || process.env.lex_site_id;
 
   res.json({
     url_set: !!url,
@@ -105,13 +109,20 @@ app.get("/api/lex-config-status", (req: Request, res: Response) => {
 
 // Diagnostic Endpoint: Test the external LexAI link
 app.get("/api/test-link", async (req: Request, res: Response) => {
-  const url = process.env.VITE_LEX_AI_URL;
-  const apiKey = process.env.VITE_LEX_AI_KEY;
+  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
+  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
+
+  console.log("--- SYSTEM DIAGNOSTIC START ---");
+  console.log("URL present:", !!url);
+  console.log("Key present:", !!apiKey);
+  console.log("All env keys:", Object.keys(process.env).filter(k => k.includes('LEX')));
+  console.log("--- SYSTEM DIAGNOSTIC END ---");
 
   if (!url || !apiKey) {
     return res.status(500).json({ 
       error: "Configuration missing", 
-      missing: { url: !url, key: !apiKey }
+      missing: { url: !url, key: !apiKey },
+      available_keys: Object.keys(process.env).filter(k => k.includes('LEX') || k.includes('VITE'))
     });
   }
 

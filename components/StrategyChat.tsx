@@ -127,7 +127,15 @@ const StrategyChat: React.FC = () => {
       console.error("Strategy Engine Error:", error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `**CRITICAL ERROR:** ${error.message}\n\nStrategic links are down. This usually happens when environment variables (API Key/URL) are missing or incorrect in the server.` 
+        content: `**CRITICAL ERROR:** External engine connection failed.
+
+**HOW TO FIX:**
+1. Open the **Settings** (gear icon) in the top-right of the AI Studio interface.
+2. In the "Environment Variables" section, add:
+   - \`VITE_LEX_AI_URL\`
+   - \`VITE_LEX_AI_KEY\`
+   - \`VITE_LEX_SITE_ID\`
+3. Close the settings and the app will restart with the new keys.`
       }]);
     } finally {
       setIsLoading(false);
@@ -177,12 +185,12 @@ const StrategyChat: React.FC = () => {
             </div>
             {configStatus && (
               <div className="mt-2 pt-2 border-t border-rose-500/20 text-[8px] opacity-70">
-                <p className="text-white font-bold mb-1 underline">AI STUDIO SETUP REQUIRED:</p>
-                <p className="mb-2 italic opacity-60">Go to AI Studio "Settings" menu to add these keys:</p>
-                <div className="grid grid-cols-2 gap-y-1">
-                  <p>URL: {configStatus.url_preview} {configStatus.url_set ? '✅' : '❌'}</p>
-                  <p>KEY: {configStatus.key_preview} {configStatus.key_set ? '✅' : '❌'}</p>
-                  <p>SITE: {configStatus.site_preview} {configStatus.site_set ? '✅' : '❌'}</p>
+                <p className="text-white font-bold mb-1 underline uppercase">Connection Health:</p>
+                <p className="mb-2 italic opacity-60 leading-tight">If on Netlify, ensure variables match exactly (e.g. LEX_AI_KEY). If in AI Studio, check Settings.</p>
+                <div className="grid grid-cols-1 gap-y-1">
+                  <p className="flex justify-between"><span>URL: {configStatus.url_preview}</span> <span>{configStatus.url_set ? '✅' : '❌'}</span></p>
+                  <p className="flex justify-between"><span>KEY: {configStatus.key_preview}</span> <span>{configStatus.key_set ? '✅' : '❌'}</span></p>
+                  <p className="flex justify-between"><span>SITE: {configStatus.site_preview}</span> <span>{configStatus.site_set ? '✅' : '❌'}</span></p>
                 </div>
               </div>
             )}
