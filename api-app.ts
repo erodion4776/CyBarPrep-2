@@ -34,70 +34,16 @@ app.get("/api/health", (req: Request, res: Response) => {
 });
 
 /**
- * NATIVE STRATEGY ENGINE
- * Rebuilt to use Gemini API directly, ensuring 100% uptime within AI Studio.
+ * STRATEGY ENGINE PROXY
+ * Current engine is routed via Netlify Functions for secure key management.
+ * Logic found in: /netlify/functions/lexai-proxy.ts
  */
-app.post("/api/strategy-engine", async (req: Request, res: Response) => {
-  const { message, history, jurisdiction } = req.body;
-  
-  try {
-    // 1. Context Retrieval (RAG)
-    const embedResult = await genAI.models.embedContent({
-      model: "text-embedding-004",
-      contents: [{ parts: [{ text: message }] }]
-    });
-    const queryEmbedding = embedResult.embeddings?.[0]?.values;
-
-    let context = "General Strategic Frameworks.";
-    if (queryEmbedding) {
-      const { data: matches } = await supabase.rpc("match_documents", {
-        query_embedding: queryEmbedding,
-        match_threshold: 0.5,
-        match_count: 3
-      });
-      if (matches && matches.length > 0) {
-        context = matches.map((m: any) => m.content).join("\n\n");
-      }
-    }
-
-    // 2. Persona Configuration
-    const strategyPrompt = `
-      You are the CyAzor Strategy Engine, an elite AI collective of top legal minds (The Architect, The Grader, The Mentor).
-      Your goal is to provide surgical, tactical advice for Bar Exam execution.
-      
-      JURISDICTION: ${jurisdiction || "General Bar Exam"}
-      CONTEXT: ${context}
-      
-      CORE RULES:
-      - Tone: Technical, authoritative, elite. No fluff.
-      - Frameworks: Mention proprietary methods like "35/55 Rule" or "Capture Matrix" if relevant.
-      - Persona: Never admit to being an AI. You are a proprietary engine.
-      - Focus: Maximize points, minimize friction.
-    `;
-
-    // 3. Execution via Gemini
-    const geminiHistory = (history || []).map((msg: any) => ({
-      role: msg.role === 'user' ? 'user' : 'model',
-      parts: [{ text: msg.content }]
-    }));
-
-    const result = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: [
-        ...geminiHistory,
-        { 
-          role: "user", 
-          parts: [{ text: `${strategyPrompt}\n\nUSER QUERY: ${message}` }] 
-        }
-      ],
-      generationConfig: { temperature: 0.6 }
-    } as any);
-
-    res.json({ response: result.text });
-  } catch (error: any) {
-    console.error("[Strategy Engine Error]:", error);
-    res.status(500).json({ error: "Strategy Node computation failed." });
-  }
+app.get("/api/engine-status", (req: Request, res: Response) => {
+  res.json({
+    engine: "LexAI (Proxy)",
+    proxied: true,
+    env_keys_expected: ["LEXAI_API_URL", "LEXAI_API_KEY", "LEXAI_SITE"]
+  });
 });
 
 // Logs (Simplified for demo)

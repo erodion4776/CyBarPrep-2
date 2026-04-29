@@ -78,31 +78,30 @@ const StrategyChat: React.FC = () => {
     setShowPromo(false);
 
     try {
-      const response = await fetch('/api/strategy-engine', {
+      const response = await fetch('/.netlify/functions/lexai-proxy', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           message: input,
-          history: messages.slice(-5), // Send last 5 messages for context
-          jurisdiction: 'Cyprus',
         })
       });
       
       if (!response.ok) {
-        throw new Error(`Execution Error: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Strategic link failure: ${response.status}`);
       }
 
       const data = await response.json();
-      const assistantMsg = data.response || "Strategy node timeout. Re-calculating...";
+      const assistantMsg = data.reply || data.message || data.response || "Signal found, but no data received.";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
     } catch (error: any) {
       console.error("Strategy Engine Error:", error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `**SYSTEM ERROR:** The Strategy Engine failed to compute a response. This is likely due to a temporary node desync. Please try again.` 
+        content: `**CONNECTION ERROR:** ${error.message}. Please check your Netlify environment variables.` 
       }]);
     } finally {
       setIsLoading(false);
