@@ -14,7 +14,27 @@ const StrategyChat: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<'checking' | 'connected' | 'error'>('checking');
+  const [debugInfo, setDebugInfo] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const checkConnection = async () => {
+    try {
+      setConnectionStatus('checking');
+      const response = await fetch('/api/health');
+      if (response.ok) {
+        setConnectionStatus('connected');
+      } else {
+        setConnectionStatus('error');
+      }
+    } catch (err) {
+      setConnectionStatus('error');
+    }
+  };
+
+  useEffect(() => {
+    checkConnection();
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -71,17 +91,24 @@ const StrategyChat: React.FC = () => {
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || `Strategic link failure: ${response.status}`);
+        const errorMsg = errorData.error || `Strategic link failure: ${response.status}`;
+        const detailInfo = errorData.details ? JSON.stringify(errorData.details) : null;
+        setDebugInfo(detailInfo);
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
       console.log("LexAI Proxy Response:", data);
       const assistantMsg = data.response || "Signal lost. Re-establishing strategic link...";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
+      setDebugInfo(null);
       checkPromo(assistantMsg);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Strategy Engine Error:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Error: Strategy Engine synchronization failed. Please try again or check system logs." }]);
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: `**CRITICAL ERROR:** ${error.message}\n\nStrategic links are down. This usually happens when environment variables (API Key/URL) are missing or incorrect in the server.` 
+      }]);
     } finally {
       setIsLoading(false);
     }
@@ -89,6 +116,32 @@ const StrategyChat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[750px] bg-slate-950 rounded-[24px] overflow-hidden border border-white/10 shadow-2xl relative">
+      {/* Connection Status & Debug Info */}
+      <div className="absolute top-4 left-6 z-20 flex items-center gap-3">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 backdrop-blur-sm rounded-full border border-white/5">
+          <motion.div 
+            animate={{ opacity: connectionStatus === 'checking' ? [0.3, 1, 0.3] : 1 }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className={`h-2 w-2 rounded-full ${
+              connectionStatus === 'connected' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 
+              connectionStatus === 'error' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : 
+              'bg-amber-500'
+            }`} 
+          />
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            {connectionStatus === 'connected' ? 'Nexus Live' : 
+             connectionStatus === 'error' ? 'Nexus Offline' : 
+             'Syncing Nexus...'}
+          </span>
+        </div>
+        {debugInfo && (
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 text-[9px] font-mono whitespace-nowrap">
+            <AlertCircle size={10} />
+            LOG: {debugInfo.slice(0, 40)}...
+          </div>
+        )}
+      </div>
+
       {/* Promo Bolt (Commercial Integration) */}
       <AnimatePresence>
         {showPromo && (
