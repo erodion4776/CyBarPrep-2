@@ -54,6 +54,8 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
 
   try {
     console.log(`[LexAI Proxy] Sending request to Site: ${siteId.slice(0, 4)}...***`);
+    console.log(`[LexAI Proxy] Target URL: ${url.slice(0, 30)}...`);
+    
     const payload = {
       message,
       site: siteId,
@@ -65,22 +67,40 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
         'Content-Type': 'application/json',
         'x-api-key': apiKey
       },
-      timeout: 20000 
+      timeout: 30000 // 30s timeout
     });
 
     res.json(response.data);
   } catch (error: any) {
     const status = error.response?.status || 500;
     const errorData = error.response?.data || error.message;
-    console.error(`[LexAI Proxy Error] Status: ${status}`, errorData);
+    console.error(`[LexAI Proxy Error] Status: ${status}`, JSON.stringify(errorData));
     
     res.status(status).json({ 
       error: `Strategic link failure: ${status}`,
       details: errorData,
-      site_debug: `${siteId.slice(0, 3)}...`,
-      endpoint: url.slice(0, 15) + "..."
+      site_used: `${siteId.slice(0, 4)}...`,
+      endpoint_prefix: url.slice(0, 15),
+      timestamp: new Date().toISOString()
     });
   }
+});
+
+// LexAI Config Debug (Masked)
+app.get("/api/lex-config-status", (req: Request, res: Response) => {
+  const url = process.env.VITE_LEX_AI_URL;
+  const key = process.env.VITE_LEX_AI_KEY;
+  const site = process.env.VITE_LEX_SITE_ID;
+
+  res.json({
+    url_set: !!url,
+    url_preview: url ? `${url.slice(0, 10)}...${url.slice(-5)}` : "missing",
+    key_set: !!key,
+    key_preview: key ? `${key.slice(0, 4)}...` : "missing",
+    site_set: !!site,
+    site_preview: site ? `${site.slice(0, 4)}...` : "missing",
+    protocol_ok: url?.startsWith('http') || false
+  });
 });
 
 // Diagnostic Endpoint: Test the external LexAI link

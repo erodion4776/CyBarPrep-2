@@ -16,13 +16,21 @@ const StrategyChat: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<'checking' | 'connected' | 'error'>('checking');
   const [debugInfo, setDebugInfo] = useState<string | null>(null);
+  const [configStatus, setConfigStatus] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const checkConnection = async () => {
     try {
       setConnectionStatus('checking');
-      const response = await fetch('/api/health');
-      if (response.ok) {
+      const [healthRes, configRes] = await Promise.all([
+        fetch('/api/health'),
+        fetch('/api/lex-config-status')
+      ]);
+      
+      const configData = await configRes.json();
+      setConfigStatus(configData);
+
+      if (healthRes.ok) {
         setConnectionStatus('connected');
       } else {
         setConnectionStatus('error');
@@ -92,9 +100,20 @@ const StrategyChat: React.FC = () => {
       if (!response.ok) {
         const errorData = await response.json();
         const errorMsg = errorData.error || `Strategic link failure: ${response.status}`;
-        const detailInfo = errorData.details ? JSON.stringify(errorData.details) : null;
-        const siteInfo = errorData.site_debug ? ` [Site: ${errorData.site_debug}]` : '';
-        setDebugInfo(detailInfo ? `${errorMsg}${siteInfo} | ${detailInfo}` : `${errorMsg}${siteInfo}`);
+        const detailInfo = errorData.details ? JSON.stringify(errorData.details, null, 2) : 'No extra details';
+        const siteInfo = errorData.site_used ? ` [Site: ${errorData.site_used}]` : '';
+        const endpointInfo = errorData.endpoint_prefix ? ` [Endpoint: ${errorData.endpoint_prefix}...]` : '';
+        
+        setDebugInfo(`
+          ERROR: ${errorMsg}
+          STATUS: ${response.status}
+          ${siteInfo}
+          ${endpointInfo}
+          
+          RAW DETAILS:
+          ${detailInfo}
+        `.trim());
+        
         throw new Error(errorMsg);
       }
 
@@ -145,14 +164,25 @@ const StrategyChat: React.FC = () => {
           )}
         </div>
         {debugInfo && (
-          <div className="flex flex-col gap-1 p-2 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 font-mono text-[9px] max-w-[250px]">
-            <div className="flex items-center gap-2 border-b border-rose-500/10 pb-1 mb-1">
-              <AlertCircle size={10} />
-              <span className="font-bold">SYSTEM DIAGNOSTIC</span>
+          <div className="flex flex-col gap-1 p-3 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 font-mono text-[9px] max-w-[280px] shadow-xl backdrop-blur-md">
+            <div className="flex items-center justify-between border-b border-rose-500/20 pb-1 mb-1">
+              <div className="flex items-center gap-2">
+                <AlertCircle size={10} />
+                <span className="font-bold">ENGINE DIAGNOSTIC</span>
+              </div>
+              <button onClick={() => setDebugInfo(null)} className="opacity-50 hover:opacity-100">×</button>
             </div>
-            <div className="truncate whitespace-pre-wrap break-all opacity-80">
+            <div className="max-h-[150px] overflow-y-auto whitespace-pre-wrap break-all pr-2">
               {debugInfo}
             </div>
+            {configStatus && (
+              <div className="mt-2 pt-2 border-t border-rose-500/20 text-[8px] opacity-70">
+                <p>Config Check:</p>
+                <p>URL: {configStatus.url_preview} {configStatus.url_set ? '✅' : '❌'}</p>
+                <p>KEY: {configStatus.key_preview} {configStatus.key_set ? '✅' : '❌'}</p>
+                <p>SITE: {configStatus.site_preview} {configStatus.site_set ? '✅' : '❌'}</p>
+              </div>
+            )}
           </div>
         )}
       </div>
