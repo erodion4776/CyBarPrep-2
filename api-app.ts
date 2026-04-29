@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
+import axios from "axios";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
@@ -30,6 +31,40 @@ app.use(express.json({ limit: "50mb" }));
 // Health Check
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({ status: "operational", timestamp: new Date().toISOString() });
+});
+
+// LexAI Strategic API Proxy (Resolves CORS)
+app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
+  const { message, site, jurisdiction } = req.body;
+
+  const url = process.env.VITE_LEX_AI_URL;
+  const apiKey = process.env.VITE_LEX_AI_KEY;
+  const siteId = site || process.env.VITE_LEX_SITE_ID;
+
+  if (!url || !apiKey || !siteId) {
+    return res.status(500).json({ error: "Backend LexAI configuration missing." });
+  }
+
+  try {
+    const response = await axios.post(url, {
+      message,
+      site: siteId,
+      jurisdiction: jurisdiction || 'Cyprus'
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey
+      }
+    });
+
+    res.json(response.data);
+  } catch (error: any) {
+    console.error("LexAI Proxy Error:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({ 
+      error: "Strategic link synchronization failed.",
+      details: error.response?.data || error.message 
+    });
+  }
 });
 
 // Logs (Simplified for demo)

@@ -57,40 +57,25 @@ const StrategyChat: React.FC = () => {
     setIsLoading(true);
     setShowPromo(false);
 
-    const url = import.meta.env.VITE_LEX_AI_URL;
-    const apiKey = import.meta.env.VITE_LEX_AI_KEY;
-    const siteId = import.meta.env.VITE_LEX_SITE_ID;
-
-    if (!url || !apiKey || !siteId) {
-      console.error("Missing LexAI environment variables:", { url, apiKey, siteId });
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "System configuration error: Strategic API endpoints are not fully configured. Please reach out to your administrator to verify VITE_LEX_AI_URL, VITE_LEX_AI_KEY, and VITE_LEX_SITE_ID." 
-      }]);
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch(url, {
+      const response = await fetch('/api/lex-chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': apiKey
         },
         body: JSON.stringify({
           message: input,
-          site: siteId,
           jurisdiction: 'Cyprus',
         })
       });
       
       if (!response.ok) {
-        throw new Error(`Strategic link failure: ${response.status} ${response.statusText}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Strategic link failure: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("LexAI Response:", data);
+      console.log("LexAI Proxy Response:", data);
       const assistantMsg = data.response || "Signal lost. Re-establishing strategic link...";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
       checkPromo(assistantMsg);
