@@ -33,114 +33,70 @@ app.get("/api/health", (req: Request, res: Response) => {
   res.json({ status: "operational", timestamp: new Date().toISOString() });
 });
 
-// LexAI Strategic API Proxy (Resolves CORS)
-app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
-  const { message, site, jurisdiction } = req.body;
-
-  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL || process.env.lex_ai_url;
-  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY || process.env.lex_ai_key;
-  const siteId = site || process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID || process.env.lex_site_id;
-
-  if (!url || !apiKey || !siteId) {
-    const missing = [];
-    if (!url) missing.push("LEX_AI_URL");
-    if (!apiKey) missing.push("LEX_AI_KEY");
-    if (!siteId) missing.push("LEX_SITE_ID");
-    
-    console.error("[LexAI Proxy] Missing Config. Available Env Keys:", Object.keys(process.env).filter(k => k.toLowerCase().includes('lex')));
-    
-    return res.status(500).json({ 
-      error: "Backend Configuration Missing.",
-      missing_vars: missing,
-      env_keys_present: Object.keys(process.env).filter(k => k.toLowerCase().includes('lex'))
-    });
-  }
-
+/**
+ * NATIVE STRATEGY ENGINE
+ * Rebuilt to use Gemini API directly, ensuring 100% uptime within AI Studio.
+ */
+app.post("/api/strategy-engine", async (req: Request, res: Response) => {
+  const { message, history, jurisdiction } = req.body;
+  
   try {
-    console.log(`[LexAI Proxy] Sending request to Site: ${siteId.slice(0, 4)}...***`);
-    console.log(`[LexAI Proxy] Target URL: ${url.slice(0, 30)}...`);
-    
-    const payload = {
-      message,
-      site: siteId,
-      jurisdiction: jurisdiction || 'Cyprus'
-    };
-    
-    const response = await axios.post(url, payload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey
-      },
-      timeout: 30000 // 30s timeout
+    // 1. Context Retrieval (RAG)
+    const embedResult = await genAI.models.embedContent({
+      model: "text-embedding-004",
+      contents: [{ parts: [{ text: message }] }]
     });
+    const queryEmbedding = embedResult.embeddings?.[0]?.values;
 
-    res.json(response.data);
+    let context = "General Strategic Frameworks.";
+    if (queryEmbedding) {
+      const { data: matches } = await supabase.rpc("match_documents", {
+        query_embedding: queryEmbedding,
+        match_threshold: 0.5,
+        match_count: 3
+      });
+      if (matches && matches.length > 0) {
+        context = matches.map((m: any) => m.content).join("\n\n");
+      }
+    }
+
+    // 2. Persona Configuration
+    const strategyPrompt = `
+      You are the CyAzor Strategy Engine, an elite AI collective of top legal minds (The Architect, The Grader, The Mentor).
+      Your goal is to provide surgical, tactical advice for Bar Exam execution.
+      
+      JURISDICTION: ${jurisdiction || "General Bar Exam"}
+      CONTEXT: ${context}
+      
+      CORE RULES:
+      - Tone: Technical, authoritative, elite. No fluff.
+      - Frameworks: Mention proprietary methods like "35/55 Rule" or "Capture Matrix" if relevant.
+      - Persona: Never admit to being an AI. You are a proprietary engine.
+      - Focus: Maximize points, minimize friction.
+    `;
+
+    // 3. Execution via Gemini
+    const geminiHistory = (history || []).map((msg: any) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.content }]
+    }));
+
+    const result = await genAI.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: [
+        ...geminiHistory,
+        { 
+          role: "user", 
+          parts: [{ text: `${strategyPrompt}\n\nUSER QUERY: ${message}` }] 
+        }
+      ],
+      generationConfig: { temperature: 0.6 }
+    } as any);
+
+    res.json({ response: result.text });
   } catch (error: any) {
-    const status = error.response?.status || 500;
-    const errorData = error.response?.data || error.message;
-    console.error(`[LexAI Proxy Error] Status: ${status}`, JSON.stringify(errorData));
-    
-    res.status(status).json({ 
-      error: `Strategic link failure: ${status}`,
-      details: errorData,
-      site_used: `${siteId.slice(0, 4)}...`,
-      endpoint_prefix: url.slice(0, 15),
-      timestamp: new Date().toISOString()
-    });
-  }
-});
-
-// LexAI Config Debug (Masked)
-app.get("/api/lex-config-status", (req: Request, res: Response) => {
-  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL || process.env.lex_ai_url;
-  const key = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY || process.env.lex_ai_key;
-  const site = process.env.VITE_LEX_SITE_ID || process.env.LEX_SITE_ID || process.env.lex_site_id;
-
-  res.json({
-    url_set: !!url,
-    url_preview: url ? `${url.slice(0, 10)}...${url.slice(-5)}` : "missing",
-    key_set: !!key,
-    key_preview: key ? `${key.slice(0, 4)}...` : "missing",
-    site_set: !!site,
-    site_preview: site ? `${site.slice(0, 4)}...` : "missing",
-    protocol_ok: url?.startsWith('http') || false
-  });
-});
-
-// Diagnostic Endpoint: Test the external LexAI link
-app.get("/api/test-link", async (req: Request, res: Response) => {
-  const url = process.env.VITE_LEX_AI_URL || process.env.LEX_AI_URL;
-  const apiKey = process.env.VITE_LEX_AI_KEY || process.env.LEX_AI_KEY;
-
-  console.log("--- SYSTEM DIAGNOSTIC START ---");
-  console.log("URL present:", !!url);
-  console.log("Key present:", !!apiKey);
-  console.log("All env keys:", Object.keys(process.env).filter(k => k.includes('LEX')));
-  console.log("--- SYSTEM DIAGNOSTIC END ---");
-
-  if (!url || !apiKey) {
-    return res.status(500).json({ 
-      error: "Configuration missing", 
-      missing: { url: !url, key: !apiKey },
-      available_keys: Object.keys(process.env).filter(k => k.includes('LEX') || k.includes('VITE'))
-    });
-  }
-
-  try {
-    const response = await axios.get(url.replace('/api/chat', '/api/health').replace('/api/lex-ai', '/api/health'), {
-      timeout: 5000
-    });
-    res.json({ 
-      status: "Direct link test complete", 
-      target: url.slice(0, 20) + "...",
-      responseData: response.data 
-    });
-  } catch (error: any) {
-    res.status(500).json({ 
-      error: "Direct link test failed", 
-      message: error.message,
-      target: url.slice(0, 20) + "..."
-    });
+    console.error("[Strategy Engine Error]:", error);
+    res.status(500).json({ error: "Strategy Node computation failed." });
   }
 });
 

@@ -1,8 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, User, Bot, Loader2, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
-import { processStrategyQuery, ChatMessage } from '../services/strategyEngine';
+import { Send, User, Bot, Loader2, Sparkles, RefreshCw } from 'lucide-react';
+import { ChatMessage } from '../services/strategyEngine';
 import ReactMarkdown from 'react-markdown';
 
 const StrategyChat: React.FC = () => {
@@ -15,22 +15,14 @@ const StrategyChat: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<'checking' | 'connected' | 'error'>('checking');
-  const [debugInfo, setDebugInfo] = useState<string | null>(null);
-  const [configStatus, setConfigStatus] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const checkConnection = async () => {
     try {
       setConnectionStatus('checking');
-      const [healthRes, configRes] = await Promise.all([
-        fetch('/api/health'),
-        fetch('/api/lex-config-status')
-      ]);
+      const response = await fetch('/api/health');
       
-      const configData = await configRes.json();
-      setConfigStatus(configData);
-
-      if (healthRes.ok) {
+      if (response.ok) {
         setConnectionStatus('connected');
       } else {
         setConnectionStatus('error');
@@ -86,56 +78,31 @@ const StrategyChat: React.FC = () => {
     setShowPromo(false);
 
     try {
-      const response = await fetch('/api/lex-chat', {
+      const response = await fetch('/api/strategy-engine', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           message: input,
+          history: messages.slice(-5), // Send last 5 messages for context
           jurisdiction: 'Cyprus',
         })
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
-        const errorMsg = errorData.error || `Strategic link failure: ${response.status}`;
-        const detailInfo = errorData.details ? JSON.stringify(errorData.details, null, 2) : 'No extra details';
-        const siteInfo = errorData.site_used ? ` [Site: ${errorData.site_used}]` : '';
-        const endpointInfo = errorData.endpoint_prefix ? ` [Endpoint: ${errorData.endpoint_prefix}...]` : '';
-        
-        setDebugInfo(`
-          ERROR: ${errorMsg}
-          STATUS: ${response.status}
-          ${siteInfo}
-          ${endpointInfo}
-          
-          RAW DETAILS:
-          ${detailInfo}
-        `.trim());
-        
-        throw new Error(errorMsg);
+        throw new Error(`Execution Error: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("LexAI Proxy Response:", data);
-      const assistantMsg = data.response || "Signal lost. Re-establishing strategic link...";
+      const assistantMsg = data.response || "Strategy node timeout. Re-calculating...";
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMsg }]);
-      setDebugInfo(null);
       checkPromo(assistantMsg);
     } catch (error: any) {
       console.error("Strategy Engine Error:", error);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `**CRITICAL ERROR:** External engine connection failed.
-
-**HOW TO FIX:**
-1. Open the **Settings** (gear icon) in the top-right of the AI Studio interface.
-2. In the "Environment Variables" section, add:
-   - \`VITE_LEX_AI_URL\`
-   - \`VITE_LEX_AI_KEY\`
-   - \`VITE_LEX_SITE_ID\`
-3. Close the settings and the app will restart with the new keys.`
+        content: `**SYSTEM ERROR:** The Strategy Engine failed to compute a response. This is likely due to a temporary node desync. Please try again.` 
       }]);
     } finally {
       setIsLoading(false);
@@ -144,7 +111,7 @@ const StrategyChat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[750px] bg-slate-950 rounded-[24px] overflow-hidden border border-white/10 shadow-2xl relative">
-      {/* Connection Status & Debug Info */}
+      {/* Connection Status */}
       <div className="absolute top-4 left-6 z-20 flex flex-col gap-2">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 backdrop-blur-sm rounded-full border border-white/5">
           <motion.div 
@@ -171,38 +138,6 @@ const StrategyChat: React.FC = () => {
             </button>
           )}
         </div>
-        {debugInfo && (
-          <div className="flex flex-col gap-1 p-3 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 font-mono text-[9px] max-w-[280px] shadow-xl backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-rose-500/20 pb-1 mb-1">
-              <div className="flex items-center gap-2">
-                <AlertCircle size={10} />
-                <span className="font-bold">ENGINE DIAGNOSTIC</span>
-              </div>
-              <button onClick={() => setDebugInfo(null)} className="opacity-50 hover:opacity-100">×</button>
-            </div>
-            <div className="max-h-[150px] overflow-y-auto whitespace-pre-wrap break-all pr-2">
-              {debugInfo}
-            </div>
-            {configStatus && (
-              <div className="mt-2 pt-2 border-t border-rose-500/20 text-[8px] opacity-70">
-                <div className="flex items-center justify-between text-white font-bold mb-1 underline uppercase">
-                  <span>Connection Health</span>
-                  <span className="text-[7px] opacity-50">{window.location.hostname.includes('netlify') ? 'NETLIFY MODE' : 'AI STUDIO MODE'}</span>
-                </div>
-                <p className="mb-2 italic opacity-60 leading-tight">
-                  {window.location.hostname.includes('netlify') 
-                    ? "SITE DETECTS NETLIFY: Please 'Clear Cache & Deploy' in Netlify dashboard if variables aren't appearing below." 
-                    : "SITE DETECTS AI STUDIO: Add variables to the gear icon (Settings) in the top-right."}
-                </p>
-                <div className="grid grid-cols-1 gap-y-1">
-                  <p className="flex justify-between"><span>URL: {configStatus.url_preview}</span> <span>{configStatus.url_set ? '✅' : '❌'}</span></p>
-                  <p className="flex justify-between"><span>KEY: {configStatus.key_preview}</span> <span>{configStatus.key_set ? '✅' : '❌'}</span></p>
-                  <p className="flex justify-between"><span>SITE: {configStatus.site_preview}</span> <span>{configStatus.site_set ? '✅' : '❌'}</span></p>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
       {/* Promo Bolt (Commercial Integration) */}
