@@ -46,6 +46,7 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
   }
 
   try {
+    console.log(`[LexAI Proxy] Initiating link to: ${url.slice(0, 15)}...`);
     const response = await axios.post(url, {
       message,
       site: siteId,
@@ -54,15 +55,50 @@ app.post("/api/lex-chat", async (req: Request, res: Response): Promise<any> => {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey
-      }
+      },
+      timeout: 15000 // Increased timeout
     });
 
     res.json(response.data);
   } catch (error: any) {
-    console.error("LexAI Proxy Error:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({ 
-      error: "Strategic link synchronization failed.",
-      details: error.response?.data || error.message 
+    const status = error.response?.status || 500;
+    const errorData = error.response?.data || error.message;
+    console.error(`[LexAI Proxy Error] Status: ${status}`, errorData);
+    
+    res.status(status).json({ 
+      error: `Strategic link synchronization failed (Node Error: ${status}).`,
+      details: errorData,
+      endpoint_hint: url ? (url.includes('relevance') ? 'RelevanceAI' : 'Custom') : 'None'
+    });
+  }
+});
+
+// Diagnostic Endpoint: Test the external LexAI link
+app.get("/api/test-link", async (req: Request, res: Response) => {
+  const url = process.env.VITE_LEX_AI_URL;
+  const apiKey = process.env.VITE_LEX_AI_KEY;
+
+  if (!url || !apiKey) {
+    return res.status(500).json({ 
+      error: "Configuration missing", 
+      missing: { url: !url, key: !apiKey }
+    });
+  }
+
+  try {
+    const response = await axios.get(url.replace('/api/chat', '/api/health').replace('/api/lex-ai', '/api/health'), {
+      timeout: 5000
+    });
+    res.json({ 
+      status: "Direct link test complete", 
+      target: url.slice(0, 20) + "...",
+      responseData: response.data 
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      error: "Direct link test failed", 
+      message: error.message,
+      target: url.slice(0, 20) + "..."
     });
   }
 });

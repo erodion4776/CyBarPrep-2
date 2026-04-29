@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, User, Bot, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { Send, User, Bot, Loader2, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
 import { processStrategyQuery, ChatMessage } from '../services/strategyEngine';
 import ReactMarkdown from 'react-markdown';
 
@@ -117,7 +117,7 @@ const StrategyChat: React.FC = () => {
   return (
     <div className="flex flex-col h-[750px] bg-slate-950 rounded-[24px] overflow-hidden border border-white/10 shadow-2xl relative">
       {/* Connection Status & Debug Info */}
-      <div className="absolute top-4 left-6 z-20 flex items-center gap-3">
+      <div className="absolute top-4 left-6 z-20 flex flex-col gap-2">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900/80 backdrop-blur-sm rounded-full border border-white/5">
           <motion.div 
             animate={{ opacity: connectionStatus === 'checking' ? [0.3, 1, 0.3] : 1 }}
@@ -133,11 +133,25 @@ const StrategyChat: React.FC = () => {
              connectionStatus === 'error' ? 'Nexus Offline' : 
              'Syncing Nexus...'}
           </span>
+          {connectionStatus === 'error' && (
+            <button 
+              onClick={checkConnection}
+              className="ml-2 hover:text-white transition-colors"
+              title="Retry Nexus Sync"
+            >
+              <RefreshCw size={10} />
+            </button>
+          )}
         </div>
         {debugInfo && (
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 text-[9px] font-mono whitespace-nowrap">
-            <AlertCircle size={10} />
-            LOG: {debugInfo.slice(0, 40)}...
+          <div className="flex flex-col gap-1 p-2 bg-rose-500/10 text-rose-400 rounded-lg border border-rose-500/20 font-mono text-[9px] max-w-[250px]">
+            <div className="flex items-center gap-2 border-b border-rose-500/10 pb-1 mb-1">
+              <AlertCircle size={10} />
+              <span className="font-bold">SYSTEM DIAGNOSTIC</span>
+            </div>
+            <div className="truncate whitespace-pre-wrap break-all opacity-80">
+              {debugInfo}
+            </div>
           </div>
         )}
       </div>
